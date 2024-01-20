@@ -11,14 +11,14 @@ def date_to_month(d):
     return '%04i-%02i' % (d.year, d.month)
 
 
-def pivot_months_pandas(data):
-    """
-    Create monthly precipitation totals for each station in the data set.
+# def pivot_months_pandas(data):
+#     """
+#     Create monthly precipitation totals for each station in the data set.
     
-    This should use Pandas methods to manipulate the data.
-    """
-    # ...
-    return monthly, counts
+#     This should use Pandas methods to manipulate the data.
+#     """
+#     # ...
+#     return monthly, counts
 
 
 def pivot_months_loops(data):
