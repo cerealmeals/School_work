@@ -27,7 +27,7 @@ def pivot_months_pandas(data):
     return monthly, counts
 
 
-data = pd.read_csv('353\\ass1\\e1\\precipitation.csv')
+data = pd.read_csv('precipitation.csv')
 
 data['month'] = data['date'].map(lambda x: date_to_month(x))
 #print(data)
