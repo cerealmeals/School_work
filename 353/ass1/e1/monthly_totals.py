@@ -1,10 +1,13 @@
 import pandas as pd
 import numpy as np
+import datetime as date
 
 def date_to_month(d):
     # You may need to modify this function, depending on your data types.
-    list = d.split('-')
+    #d = date.fromtimestamp(d)
+    list = str(d).split('-')
     return list[0] + '-' + list[1]
+    #return d.year + '-' + d.month
 
 def pivot_months_pandas(data):
     """
@@ -14,14 +17,16 @@ def pivot_months_pandas(data):
     """
     # ...
     data['month'] = data['date'].map(lambda x: date_to_month(x))
-    
+
     monthly = data.groupby(by=['name', 'month']).agg({'precipitation' : ['sum']}).reset_index()
     monthly['sum'] = monthly['precipitation']
     monthly = monthly.pivot(index='name', columns='month', values='sum')
+    #print(monthly)
 
     counts = data.groupby(by=['name', 'month']).agg({'precipitation' : ['count']}).reset_index()
     counts['count'] = counts['precipitation']
     counts = counts.pivot(index='name', columns='month', values='count')
+    #print(counts)
     
 
 
