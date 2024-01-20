@@ -4,7 +4,6 @@
 
 #ifndef _LIST_H_
 #define _LIST_H_
-#include <stdbool.h>
 
 #define LIST_SUCCESS 0
 #define LIST_FAIL -1
@@ -12,15 +11,20 @@
 typedef struct Node_s Node;
 struct Node_s {
     // TODO: You should change this
+    void* pointer;
+    Node *next;
 };
 
 enum ListOutOfBounds {
     LIST_OOB_START,
     LIST_OOB_END
 };
+
 typedef struct List_s List;
 struct List_s{
     // TODO: You should change this!
+    int count;
+    Node* current;
 };
 
 // Maximum number of unique lists the system can support
