@@ -13,6 +13,8 @@ def pivot_months_pandas(data):
     This should use Pandas methods to manipulate the data.
     """
     # ...
+    data['month'] = data['date'].map(lambda x: date_to_month(x))
+    
     monthly = data.groupby(by=['name', 'month']).agg({'precipitation' : ['sum']}).reset_index()
     monthly['sum'] = monthly['precipitation']
     monthly = monthly.pivot(index='name', columns='month', values='sum')
