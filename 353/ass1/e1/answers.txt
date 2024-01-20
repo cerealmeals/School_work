@@ -1,0 +1,7 @@
+1.  Both pandas and numpy were similar in difficulty to work with. 
+    Both required reading the documentation. Pandas outputs though are way better
+
+2.  pivot_months_pandas() had a run time of 51.4 ms +/- 16.6 ms
+    pivot_months_loops() had a run time of 681 ms +/- 152 ms
+
+    so the loops one suck, because c array's are fast and cache effiecent and python array aren't 
