@@ -8,11 +8,15 @@
 #define LIST_SUCCESS 0
 #define LIST_FAIL -1
 
+#include <stdbool.h>
+
 typedef struct Node_s Node;
 struct Node_s {
     // TODO: You should change this
+
     void* pointer;
-    Node *next;
+    Node* next;
+    Node* prev;
 };
 
 enum ListOutOfBounds {
@@ -23,8 +27,12 @@ enum ListOutOfBounds {
 typedef struct List_s List;
 struct List_s{
     // TODO: You should change this!
+    
     int count;
     Node* current;
+    Node* first;
+    Node* last;
+    List* next;
 };
 
 // Maximum number of unique lists the system can support
@@ -121,7 +129,7 @@ void List_free(List* pList, FREE_FN pItemFreeFn);
 // 
 // If the current pointer is before the start of the pList, then start searching from
 // the first node in the list (if any).
-typedef bool (*COMPARATOR_FN)(void* pItem, void* pComparisonArg);
+typedef booln (*COMPARATOR_FN)(void* pItem, void* pComparisonArg);
 void* List_search(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg);
 
 #endif
