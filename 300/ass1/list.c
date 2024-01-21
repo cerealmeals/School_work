@@ -145,3 +145,33 @@ int List_insert_before(List* pList, void* pItem){
 
     return LIST_SUCCESS;
 }
+
+int List_append(List* pList, void* pItem){
+    Node* new = new_node();
+    if(new == NULL){
+        return LIST_FAIL;
+    }
+    new->pointer = pItem;
+    new->next = NULL;
+    new->prev = pList->last->prev;
+    pList->last->next = new;
+    pList->last = new;
+    pList->current = new;
+
+    return LIST_SUCCESS;
+}
+
+int List_prepend(List* pList, void* pItem){
+    Node* new = new_node();
+    if(new == NULL){
+        return LIST_FAIL;
+    }
+    new->pointer = pItem;
+    new->prev = NULL;
+    new->next = pList->first->next;
+    pList->first->prev = new;
+    pList->first = new;
+    pList->current = new;
+
+    return LIST_SUCCESS;
+}
