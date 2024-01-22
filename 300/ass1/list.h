@@ -110,13 +110,14 @@ void* List_trim(List* pList);
 // for future operations.
 void List_concat(List* pList1, List* pList2);
 
+typedef void (*FREE_FN)(void* pItem);
 // Delete pList. pItemFreeFn is a pointer to a routine that frees an item. 
 // It should be invoked (within List_free) as: (*pItemFreeFn)(itemToBeFreedFromNode);
 // pList and all its nodes no longer exists after the operation; its head and nodes are 
 // available for future operations.
-typedef void (*FREE_FN)(void* pItem);
 void List_free(List* pList, FREE_FN pItemFreeFn);
 
+typedef bool (*COMPARATOR_FN)(void* pItem, void* pComparisonArg);
 // Search pList, starting at the current item, until the end is reached or a match is found. 
 // In this context, a match is determined by the comparator parameter. This parameter is a
 // pointer to a routine that takes as its first argument an item pointer, and as its second 
@@ -129,7 +130,6 @@ void List_free(List* pList, FREE_FN pItemFreeFn);
 // 
 // If the current pointer is before the start of the pList, then start searching from
 // the first node in the list (if any).
-typedef booln (*COMPARATOR_FN)(void* pItem, void* pComparisonArg);
 void* List_search(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg);
 
 #endif

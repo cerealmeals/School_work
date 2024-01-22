@@ -1,4 +1,5 @@
 #include "list.h"
+//#include <cstddef>
 
 Node nodes[LIST_MAX_NUM_NODES];
 List heads[LIST_MAX_NUM_HEADS];
@@ -14,32 +15,32 @@ Free_Heads free_heads;
 bool first = true;
 
 Node* new_node(){
-    //check if this is the last node if yes set last to null
+    //check if this is the last node if yes set last to 0
     if(free_nodes.first == free_nodes.last){
-        free_nodes.last = NULL;
+        free_nodes.last = 0;
     }
     //pick the first node in the list
     Node* to_return = free_nodes.first;
-    //if the list was empty return a NULL pointer
-    if(to_return == NULL){
+    //if the list was empty return a 0 pointer
+    if(to_return == 0){
         return to_return;
     }
     //if the list is not empty, reset the node
-    to_return.next = NULL;
+    to_return->next = 0;
     //set the new first node and make sure it has no prev
-    free_nodes.first = free_nodes.first->next
-    free_nodes.first->prev = NULL;
+    free_nodes.first = free_nodes.first->next;
+    free_nodes.first->prev = 0;
     //deacrement the count of free nodes
     free_nodes.count--; 
 
-    return to_return
+    return to_return;
 }
 
 void return_node(Node* node){
     free_nodes.first->prev = node;
-    node->prev = NULL;
+    node->prev = 0;
     node->next = free_nodes.first;
-    node->pointer = NULL;
+    node->pointer = 0;
     free_nodes.first = node;
     free_nodes.count++;
 }
@@ -48,10 +49,10 @@ void return_head(List* plist){
     List* temp = free_heads.current;
     free_heads.current = plist;
     plist->next = temp;
-    plist->last = NULL;
-    plist->first = NULL;
+    plist->last = 0;
+    plist->first = 0;
     plist->count = 0;
-    plist->current = NULL;
+    plist->current = 0;
 
     free_heads.count++;
 }
@@ -61,34 +62,34 @@ List* List_create(){
     if(first){
         // initialize heads and list them in the free_heads header
         free_heads.count = LIST_MAX_NUM_HEADS;
-        free_heads.current = heads[0];
-        int i = 0
+        free_heads.current = &(heads[0]);
+        int i = 0;
         for(; i < LIST_MAX_NUM_HEADS-1; i++){
             heads[i].count = 0;
-            heads[i].current = NULL;
-            heads[i].first = NULL;
-            heads[i].last = NULL;
-            heads[i].next = heads[i+1];
+            heads[i].current = 0;
+            heads[i].first = 0;
+            heads[i].last = 0;
+            heads[i].next = &(heads[i+1]);
         }
-        list[i].next = NULL;
+        heads[i].next = 0;
 
         // initialize nodes and list them in the free_nodes header
         free_nodes.count = LIST_MAX_NUM_NODES;
-        free_nodes.next = NULL;
+        free_nodes.next = 0;
         i = 0;
-        nodes[i].next = nodes[i+1];
-        nodes[i].prev = NULL;
-        free_nodes.first = nodes[i];
+        nodes[i].next = &(nodes[i+1]);
+        nodes[i].prev = 0;
+        free_nodes.first = &(nodes[i]);
         i++;
         for(; i < LIST_MAX_NUM_NODES-1; i++){
-            nodes[i].pointer = NULL;
-            nodes[i].next = nodes[i+1];
-            nodes[i].prev = nodes[i-1];
+            nodes[i].pointer = 0;
+            nodes[i].next = &(nodes[i+1]);
+            nodes[i].prev = &(nodes[i-1]);
 
         }
-        nodes[i].next = NULL;
-        nodes[i].prev = nodes[i-1];
-        free_nodes.last = nodes[i];
+        nodes[i].next = 0;
+        nodes[i].prev = &(nodes[i-1]);
+        free_nodes.last = &(nodes[i]);
 
         first = false;
     }
@@ -100,7 +101,7 @@ List* List_create(){
         return to_return;
     }
     else{
-        return NULL;
+        return 0;
     }
 }
 
@@ -123,21 +124,21 @@ void* List_next(List* pList){
         pList->current = pList->first;
     }
     else if(pList->current == LIST_OOB_END){
-        pList->current = NULL;
+        pList->current = 0;
     }
     else{
         pList->current = pList->current->next;
     }
-    if(pList->current == NULL){
+    if(pList->current == 0){
         pList->current = LIST_OOB_END;
-        return NULL;
+        return 0;
     }
     return pList->current->pointer;
 }
 
 void* List_prev(List* pList){
     if(pList->current == LIST_OOB_START){
-        pList->current = NULL;
+        pList->current = 0;
     }
     else if(pList->current == LIST_OOB_END){
         pList->current = pList->last;
@@ -145,26 +146,26 @@ void* List_prev(List* pList){
     else{
         pList->current = pList->current->prev;
     }
-    if(pList->current == NULL){
+    if(pList->current == 0){
         pList->current = LIST_OOB_START;
-        return NULL;
+        return 0;
     }
     return pList->current->pointer;
 }
 
 void* List_curr(List* pList){
-    if(pList->current = LIST_OOB_END||pList->current = LIST_OOB_START){
-        return NULL;
+    if(pList->current == LIST_OOB_END||pList->current == LIST_OOB_START){
+        return 0;
     }
-    else if(pList->current == NULL){
-        return NULL;
+    else if(pList->current == 0){
+        return 0;
     }
     return pList->current->pointer;
 }
 
 int List_insert_after(List* pList, void* pItem){
     Node* new = new_node();
-    if(new == NULL){
+    if(new == 0){
         return LIST_FAIL;
     }
     new->pointer = pItem;
@@ -180,7 +181,7 @@ int List_insert_after(List* pList, void* pItem){
 int List_insert_before(List* pList, void* pItem){
     
     Node* new = new_node();
-    if(new == NULL){
+    if(new == 0){
         return LIST_FAIL;
     }
     new->pointer = pItem;
@@ -195,11 +196,11 @@ int List_insert_before(List* pList, void* pItem){
 
 int List_append(List* pList, void* pItem){
     Node* new = new_node();
-    if(new == NULL){
+    if(new == 0){
         return LIST_FAIL;
     }
     new->pointer = pItem;
-    new->next = NULL;
+    new->next = 0;
     new->prev = pList->last->prev;
     pList->last->next = new;
     pList->last = new;
@@ -211,11 +212,11 @@ int List_append(List* pList, void* pItem){
 
 int List_prepend(List* pList, void* pItem){
     Node* new = new_node();
-    if(new == NULL){
+    if(new == 0){
         return LIST_FAIL;
     }
     new->pointer = pItem;
-    new->prev = NULL;
+    new->prev = 0;
     new->next = pList->first->next;
     pList->first->prev = new;
     pList->first = new;
@@ -227,7 +228,7 @@ int List_prepend(List* pList, void* pItem){
 
 void* List_remove(List* pList){
     if(pList->current == LIST_OOB_START||pList->current == LIST_OOB_END){
-        return NULL;
+        return 0;
     }
     
     void* to_return = pList->current->pointer;
@@ -236,8 +237,8 @@ void* List_remove(List* pList){
     temp->prev->next = temp->next;
     pList->current = temp->next;
     pList->count--;
-    if(pList->current == NULL){
-        pList->current = LIST_OOB_END
+    if(pList->current == 0){
+        pList->current = LIST_OOB_END;
     } 
 
     return_node(temp);
@@ -245,14 +246,14 @@ void* List_remove(List* pList){
 }
 
 void* List_trim(List* pList){
-    if(pList->last == NULL){
-        return NULL;
+    if(pList->last == 0){
+        return 0;
     }
 
     void* to_return = pList->last->pointer;
     Node* temp = pList->last;
     pList->last = temp->prev;
-    pList->last->next = NULL;
+    pList->last->next = 0;
     pList->current = pList->last;
     pList->count--;
 
