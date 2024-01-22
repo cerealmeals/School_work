@@ -12,9 +12,9 @@ struct Head_List{
 
 List free_nodes;
 Free_Heads free_heads;
-bool first = true;
 
 Node* new_node(){
+    
     //check if this is the last node if yes set last to 0
     if(free_nodes.first == free_nodes.last){
         free_nodes.last = 0;
@@ -59,6 +59,7 @@ void return_head(List* plist){
 
 
 List* List_create(){
+    static bool first = true;
     if(first){
         // initialize heads and list them in the free_heads header
         free_heads.count = LIST_MAX_NUM_HEADS;
@@ -272,7 +273,30 @@ void List_concat(List* pList1, List* pList2){
 }
 
 void List_free(List* pList, FREE_FN pItemFreeFn){
-    for(Node* temp = pList->first; ){
-        
+    while (pList->current != 0){
+        Node* temp = pList->current;
+        (*pItemFreeFn)(temp->pointer);
+        pList->current = pList->current->next;
+        return_node(temp);
     }
+
+    return_head(pList);
+}
+
+void* List_search(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg){
+    if(pList->current == LIST_OOB_START){
+        pList->current = pList->first;
+    }
+    else if(pList->current == LIST_OOB_END){
+        return 0;
+    }
+
+    while(pList->current != 0){
+        if((*pComparator)(pList->current->pointer, pComparisonArg)){
+            return pList->current->pointer;
+        }
+        pList->current = pList->current->next;
+    }
+    pList->current = LIST_OOB_END;
+    return 0;
 }
