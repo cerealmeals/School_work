@@ -1,0 +1,9 @@
+Question 1. The result of the calculation is the predicted value of ratings for that day.
+            Each varriable in the equation is a numpy.float64
+
+Question 2. The graph is Dates on the x-axis and ratings on the y-axis, 
+            but Dates and timestamps are the same thing so really it is 
+            timestamps vs ratings. In oder to get a line of best fit, 
+            you do linear algebra magic or whatever chosen method to get
+            a function of what the line looks like, so now plug in your x-varriable
+            which is timestamps and out comes the y-varriable ratings.
