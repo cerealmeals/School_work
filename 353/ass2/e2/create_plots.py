@@ -18,7 +18,7 @@ print(file1.columns)
 
 sorted_file1 = file1['views'].sort_values(ascending=False)
 
-#file1.sort_values('views', axis=1, ascending=False)
+file1.sort_values(['views'], ascending=False)
 
 plt.figure(figsize=(10, 5)) # change the size to something sensible
 plt.subplot(1, 2, 1) # subplots in 1 row, 2 columns, select the first
