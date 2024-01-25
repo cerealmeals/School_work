@@ -1,4 +1,6 @@
 #include "list.h"
+#include <assert.h>
+#include <stdio.h>
 //#include <cstddef>
 
 Node nodes[LIST_MAX_NUM_NODES];
@@ -14,7 +16,7 @@ List free_nodes;
 Free_Heads free_heads;
 
 Node* new_node(){
-    
+    printf("New_node: number of free nodes: %d\n", free_nodes.count);
     //check if this is the last node if yes set last to 0
     if(free_nodes.first == free_nodes.last){
         free_nodes.last = 0;
@@ -25,14 +27,17 @@ Node* new_node(){
     if(to_return == 0){
         return to_return;
     }
-    //if the list is not empty, reset the node
-    to_return->next = 0;
+    
     //set the new first node and make sure it has no prev
     free_nodes.first = free_nodes.first->next;
+    printf("address of free_nodes.first: %p\n", (void*)&(free_nodes.first));
     free_nodes.first->prev = 0;
     //deacrement the count of free nodes
     free_nodes.count--; 
-
+    
+    //reset the node
+    to_return->next = 0;
+    to_return->pointer = 0;
     return to_return;
 }
 
@@ -99,6 +104,7 @@ List* List_create(){
         List* to_return = free_heads.current;
         free_heads.current = free_heads.current->next;
         free_heads.count--;
+        printf("List_create: number of free heads: %d\n",free_heads.count);
         return to_return;
     }
     else{
@@ -191,6 +197,7 @@ int List_insert_before(List* pList, void* pItem){
     pList->current->prev = new;
     pList->current = new;
     pList->count++;
+    
 
     return LIST_SUCCESS;
 }

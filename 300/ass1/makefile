@@ -1,7 +1,7 @@
 ## A simple makefile
 CC = gcc
-CFLAGS = -g -I/300/ass1
-LDFLAGS = -lgraph
+CFLAGS = -Wall -g -I/300/ass1
+LDFLAGS = 
 PROG = program
 HDRS = list.h
 SRCS = main.c list.c
