@@ -30,7 +30,7 @@ Node* new_node(){
     
     //set the new first node and make sure it has no prev
     free_nodes.first = free_nodes.first->next;
-    printf("address of free_nodes.first: %p\n", (void*)&(free_nodes.first));
+    
     free_nodes.first->prev = 0;
     //deacrement the count of free nodes
     free_nodes.count--; 
@@ -62,6 +62,13 @@ void return_head(List* plist){
     free_heads.count++;
 }
 
+void first_node(List* pList, Node* new){
+    pList->current = new;
+    pList->first = new;
+    pList->last = new;
+    new->next = 0;
+    new->prev = 0;
+}
 
 List* List_create(){
     static bool first = true;
@@ -176,10 +183,16 @@ int List_insert_after(List* pList, void* pItem){
         return LIST_FAIL;
     }
     new->pointer = pItem;
-    new->next = pList->current->next;
-    new->prev = pList->current;
-    pList->current->next = new;
-    pList->current = new;
+
+    if(pList->count == 0){
+        first_node(pList, new);
+    }
+    else{
+        new->next = pList->current->next;
+        new->prev = pList->current;
+        pList->current->next = new;
+        pList->current = new;
+    }
     pList->count++;
 
     return LIST_SUCCESS;
@@ -192,10 +205,15 @@ int List_insert_before(List* pList, void* pItem){
         return LIST_FAIL;
     }
     new->pointer = pItem;
-    new->next = pList->current;
-    new->prev = pList->current->prev;
-    pList->current->prev = new;
-    pList->current = new;
+    if(pList->count == 0){
+        first_node(pList, new);
+    }
+    else{
+        new->next = pList->current;
+        new->prev = pList->current->prev;
+        pList->current->prev = new;
+        pList->current = new;
+    }
     pList->count++;
     
 
@@ -208,13 +226,19 @@ int List_append(List* pList, void* pItem){
         return LIST_FAIL;
     }
     new->pointer = pItem;
-    new->next = 0;
-    new->prev = pList->last->prev;
-    pList->last->next = new;
-    pList->last = new;
-    pList->current = new;
+    if(pList->count == 0){
+        first_node(pList, new);
+    }
+    else{
+        new->next = 0;
+        new->prev = pList->last->prev;
+        pList->last->next = new;
+        pList->last = new;
+        pList->current = new;
+    }
+    
     pList->count++;
-
+    
     return LIST_SUCCESS;
 }
 
@@ -224,11 +248,16 @@ int List_prepend(List* pList, void* pItem){
         return LIST_FAIL;
     }
     new->pointer = pItem;
-    new->prev = 0;
-    new->next = pList->first->next;
-    pList->first->prev = new;
-    pList->first = new;
-    pList->current = new;
+    if(pList->count == 0){
+        first_node(pList, new);
+    }
+    else{
+        new->prev = 0;
+        new->next = pList->first->next;
+        pList->first->prev = new;
+        pList->first = new;
+        pList->current = new;
+    }
     pList->count++;
 
     return LIST_SUCCESS;
