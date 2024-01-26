@@ -65,20 +65,3 @@ int main(){
 
     return 0;
 }
-
-
-void print_list(List* plist){
-    int* print = List_first(plist);
-    printf("List contains: %d\n", (*print));
-    bool flag = true;
-    while(flag){
-        print = List_next(plist);
-        if(print != 0){
-            printf(" %d\n", (*print));
-        }
-        else{
-            flag = false;
-        }
-    }
-    printf("\n");
-}
