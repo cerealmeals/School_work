@@ -1,4 +1,5 @@
 #include "list.h"
+#include "test.h"
 
 #include <stdio.h>
 
@@ -13,46 +14,53 @@ int main(){
     printf("number of nodes in list1: %d\n", count);
 
     int thing1 = 1, thing2 = 2, thing3 = 3, 
-        thing4 = 4, thing5 = 5, thing6 = 6, 
-        thing7 = 7, thing8 = 8, thing9 = 9;
+        thing4 = 4;
     
     int check;
 
     // {1}
+    printf("append: 1\n");
     check = List_append(list1, &thing1);
-    if(check == 0){
-        printf("List_append worked!\n");
-    }
-    count = List_count(list1);
-    printf("number of nodes in list1: %d\n", count);
+    print_list();
 
     // {1,2}
+    printf("insert after: 2\n");
     check = List_insert_after(list1, &thing2);
-    if(check == 0){
-        printf("List_insert_after worked!\n");
-    }
-    count = List_count(list1);
-    printf("number of nodes in list1: %d\n", count);
+    print_list();
 
     // {1,3,2}
+    printf("insert before: 3\n");
     check = List_insert_before(list1, &thing3);
-    if(check == 0){
-        printf("List_insert_before worked!\n");
-    }
-    count = List_count(list1);
-    printf("number of nodes in list1: %d\n", count);
+    print_list();
 
     // {4,1,3,2}
+    printf("prepend: 4\n");
     check = List_prepend(list1, &thing4);
-    if(check == 0){
-        printf("List_prepend worked!\n");
-    }
-    count = List_count(list1);
-    printf("number of nodes in list1: %d\n", count);
-
     print_list(list1);
 
+    // should print 2
+    int* print = List_last(list1);
+    printf("last item in list is: %d\n", (&print));
+
+
+    // should print 3
+    print = list_prev(list1);
+    printf("walk one backwards in list: %d\n", (&print));
+
+    // remove current should be 3
+    print = List_remove(list1);
+    printf("the current item was remove this item is: %d\n", (&print));
+
+    // 
+
     List* list2 = List_create();
+
+    for(int i = 0; i < 5; i++){
+        int to_insert = (*int)malloc(4);
+        List_prepend(list2, &to_insert);
+    }
+    print_list(list2);
+
 
 
     return 0;
@@ -62,9 +70,15 @@ int main(){
 void print_list(List* plist){
     int* print = List_first(plist);
     printf("List contains: %d\n", (*print));
-    while(plist->current != 0){
+    bool flag = true;
+    while(flag){
         print = List_next(plist);
-        printf(" %d\n", (*print));
+        if(print != 0){
+            printf(" %d\n", (*print));
+        }
+        else{
+            flag = false;
+        }
     }
     printf("\n");
 }
