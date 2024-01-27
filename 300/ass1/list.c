@@ -16,7 +16,7 @@ List free_nodes;
 Free_Heads free_heads;
 
 Node* new_node(){
-    printf("New_node: number of free nodes: %d\n", free_nodes.count);
+    //printf("New_node: number of free nodes: %d\n", free_nodes.count-1);
     //check if this is the last node if yes set last to 0
     if(free_nodes.first == free_nodes.last){
         free_nodes.last = 0;
@@ -111,7 +111,7 @@ List* List_create(){
         List* to_return = free_heads.current;
         free_heads.current = free_heads.current->next;
         free_heads.count--;
-        printf("List_create: number of free heads: %d\n",free_heads.count);
+        //printf("List_create: number of free heads: %d\n",free_heads.count);
         return to_return;
     }
     else{
@@ -190,8 +190,14 @@ int List_insert_after(List* pList, void* pItem){
     else{
         new->next = pList->current->next;
         new->prev = pList->current;
+        if(new->next != 0){
+            pList->current->next->prev = new;
+        }
         pList->current->next = new;
         pList->current = new;
+        if(new->next == 0){
+            pList->last = new;
+        }
     }
     pList->count++;
 
@@ -211,8 +217,14 @@ int List_insert_before(List* pList, void* pItem){
     else{
         new->next = pList->current;
         new->prev = pList->current->prev;
+        if(new->prev != 0){
+            pList->current->prev->next = new;
+        }
         pList->current->prev = new;
         pList->current = new;
+        if(new->prev == 0){
+            pList->first = new;
+        }
     }
     pList->count++;
     
@@ -231,7 +243,7 @@ int List_append(List* pList, void* pItem){
     }
     else{
         new->next = 0;
-        new->prev = pList->last->prev;
+        new->prev = pList->last;
         pList->last->next = new;
         pList->last = new;
         pList->current = new;
@@ -253,7 +265,7 @@ int List_prepend(List* pList, void* pItem){
     }
     else{
         new->prev = 0;
-        new->next = pList->first->next;
+        new->next = pList->first;
         pList->first->prev = new;
         pList->first = new;
         pList->current = new;
