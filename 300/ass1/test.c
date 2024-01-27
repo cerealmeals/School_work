@@ -7,6 +7,18 @@ void free_int(void* pItem) {
   free(i);
 }
 
+bool compare(void* arg1, void* arg2){
+    int* i = (int*)arg1;
+    int* j = (int*)arg2;
+
+    if(i=j){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 void print_list(List* plist){
     int* print = List_first(plist);
     printf("List contains: %d\n", (*print));
@@ -148,30 +160,91 @@ void Test_List_append_normal(List* plist, int answer){
 }
 
 void Test_List_append_empty(List* plist, int answer){
-
+    int check = List_append(plist, answer);
+    assert(check == 0);
+    print_list(plist);
 }
 
-void Test_List_prepend_normal(List* plist, int answer);
+void Test_List_append_none(List* plist, int answer){
+    int check = List_append(plist, answer);
+    assert(check == -1);
+    print_list(plist);
+}
 
-void Test_List_prepend_empty(List* plist, int answer);
+void Test_List_prepend_normal(List* plist, int answer){
+    int check = List_prepend(plist, answer);
+    assert(check == 0);
+    print_list(plist);
+}
 
-void Test_List_remove_normal(List* plist);
+void Test_List_prepend_empty(List* plist, int answer){
+    int check = List_prepend(plist, answer);
+    assert(check == 0);
+    print_list(plist);
+}
 
-void Test_List_remove_empty(List* plist);
+void Test_List_prepend_none(List* plist, int answer){
+    int check = List_prepend(plist, answer);
+    assert(check == -1);
+    print_list(plist);
+}
 
-void Test_List_remove_last(List* plist);
+void Test_List_remove_normal(List* plist, int answer){
+    int* guess = List_remove(plist);
+    assert(&guess == answer);
+}
 
-void Test_List_trim_normal(List* plist);
+void Test_List_remove_empty(List* plist, int answer){
+    int* guess = List_remove(plist);
+    assert(&guess == answer);
+}
 
-void Test_List_trim_empty(List* plist);
+void Test_List_remove_last(List* plist, int answer){
+    int* guess = List_remove(plist);
+    assert(&guess == answer);
+}
 
-void Test_List_trim_last(List* plist);
+void Test_List_trim_normal(List* plist, int answer){
+    int* guess = List_remove(plist);
+    assert(&guess == answer);
+}
 
-void Test_List_concat_normal(List* plist1, List8 plist2);
+void Test_List_trim_empty(List* plist, int answer){
+    int* guess = List_remove(plist);
+    assert(&guess == answer);
+}
 
-void Test_List_concat_empty_list1(List* plist1, List8 plist2);
+void Test_List_trim_last(List* plist, int answer){
+    int* guess = List_remove(plist);
+    assert(&guess == answer);
+}
 
-void Test_List_concat_empty_list2(List* plist1, List8 plist2);
+void Test_List_concat_normal(List* plist1, List* plist2){
+    int size1 = List_count(plist1);
+    int size2 = List_count(plist2);
+    List_concat(plist1, plist2);
+    int size3 = List_count(plist1);
+    assert(size3 == (size1+size2));
+    print_list(plist1);
+}
+
+void Test_List_concat_empty_list1(List* plist1, List* plist2){
+    int size1 = List_count(plist1);
+    int size2 = List_count(plist2);
+    List_concat(plist1, plist2);
+    int size3 = List_count(plist1);
+    assert(size3 == (size1+size2));
+    print_list(plist1);
+}
+
+void Test_List_concat_empty_list2(List* plist1, List* plist2){
+    int size1 = List_count(plist1);
+    int size2 = List_count(plist2);
+    List_concat(plist1, plist2);
+    int size3 = List_count(plist1);
+    assert(size3 == (size1+size2));
+    print_list(plist1);
+}
 
 void Test_List_free_normal(List* plist, FREE_FN pItemFreeFn){
     List_free(plist, pItemFreeFn);
@@ -183,10 +256,22 @@ void Test_List_free_empty(List* plist, FREE_FN pItemFreeFn){
     assert(plist == 0);
 }
 
-void Test_List_search_normal(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg);
+void Test_List_search_normal(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg){
+    int* guess = List_search(pList, pComparator, pComparisonArg);
+    assert(guess != 0);
+}
 
-void Test_List_search_OOB_start(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg);
+void Test_List_search_OOB_start(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg){
+    int* guess = List_search(pList, pComparator, pComparisonArg);
+    assert(guess != 0);
+}
 
-void Test_List_search_OOB_end(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg);
+void Test_List_search_OOB_end(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg){
+    int* guess = List_search(pList, pComparator, pComparisonArg);
+    assert(guess == 0);
+}
 
-void Test_List_search_empty(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg);
+void Test_List_search_empty(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg){
+    int* guess = List_search(pList, pComparator, pComparisonArg);
+    assert(guess == 0);
+}
