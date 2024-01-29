@@ -6,15 +6,16 @@
 Node nodes[LIST_MAX_NUM_NODES];
 List heads[LIST_MAX_NUM_HEADS];
 
-typedef struct Head_List Free_Heads;
-struct Head_List{
-    int count;
-    List* current;
-};
+
 
 List free_nodes;
 Free_Heads free_heads;
-
+int free_nodes_count(){
+    return free_nodes.count;
+}
+int free_heads_count(){
+    return free_heads.count;
+}
 Node* new_node(){
     //printf("New_node: number of free nodes: %d\n", free_nodes.count-1);
     //check if this is the last node if yes set last to 0
@@ -31,7 +32,9 @@ Node* new_node(){
     //set the new first node and make sure it has no prev
     free_nodes.first = free_nodes.first->next;
     
-    free_nodes.first->prev = 0;
+    if(free_nodes.first != 0){
+        free_nodes.first->prev = 0;
+    }
     //deacrement the count of free nodes
     free_nodes.count--; 
     
@@ -42,9 +45,15 @@ Node* new_node(){
 }
 
 void return_node(Node* node){
-    free_nodes.first->prev = node;
+    if(free_nodes.count == 0){
+        free_nodes.last = node;
+        node->next = 0;
+    }
+    else{
+        free_nodes.first->prev = node;
+        node->next = free_nodes.first;
+    }
     node->prev = 0;
-    node->next = free_nodes.first;
     node->pointer = 0;
     free_nodes.first = node;
     free_nodes.count++;
@@ -84,6 +93,10 @@ List* List_create(){
             heads[i].last = 0;
             heads[i].next = &(heads[i+1]);
         }
+        heads[i].count = 0;
+        heads[i].current = 0;
+        heads[i].first = 0;
+        heads[i].last = 0;
         heads[i].next = 0;
 
         // initialize nodes and list them in the free_nodes header
@@ -124,16 +137,25 @@ int List_count(List* pList){
 }
 
 void* List_first(List* pList){
+    if(pList->count == 0){
+        return 0;
+    }
     pList->current = pList->first;
     return pList->first->pointer;
 }
 
 void* List_last(List* pList){
+    if(pList->count == 0){
+        return 0;
+    }
     pList->current = pList->last;
     return pList->last->pointer;
 }
 
 void* List_next(List* pList){
+    if(pList->count == 0){
+        return 0;
+    }
     if(pList->current == LIST_OOB_START){
         pList->current = pList->first;
     }
@@ -151,6 +173,9 @@ void* List_next(List* pList){
 }
 
 void* List_prev(List* pList){
+    if(pList->count == 0){
+        return 0;
+    }
     if(pList->current == LIST_OOB_START){
         pList->current = 0;
     }
@@ -279,11 +304,25 @@ void* List_remove(List* pList){
     if(pList->current == LIST_OOB_START||pList->current == LIST_OOB_END){
         return 0;
     }
+    if(pList->current == 0){
+        return 0;
+    }
     
     void* to_return = pList->current->pointer;
     Node* temp = pList->current;
-    temp->next->prev = temp->prev;
-    temp->prev->next = temp->next;
+    if(temp->prev != 0){
+        temp->prev->next = temp->next;
+    }
+    else{
+        pList->first = temp->next;
+    }
+    if(temp->next != 0){
+        temp->next->prev = temp->prev;
+    }
+    else{
+        pList->last = temp->prev;
+    }
+
     pList->current = temp->next;
     pList->count--;
     if(pList->current == 0){
@@ -302,7 +341,12 @@ void* List_trim(List* pList){
     void* to_return = pList->last->pointer;
     Node* temp = pList->last;
     pList->last = temp->prev;
-    pList->last->next = 0;
+    if(pList->last != 0){
+        pList->last->next = 0;
+    }
+    else{
+        pList->first = 0;
+    }
     pList->current = pList->last;
     pList->count--;
 
@@ -313,8 +357,19 @@ void* List_trim(List* pList){
 
 void List_concat(List* pList1, List* pList2){
     assert(pList1 != pList2);
-    pList1->last->next = pList2->first;
-    pList2->first->prev = pList1->last;
+    if(pList1->count!= 0){
+        pList1->last->next = pList2->first;
+    }
+    else{
+        pList1->first = pList2->first;
+        pList1->last = pList2->last;
+    }
+    if(pList2->count != 0){
+        pList2->first->prev = pList1->last;
+        pList1->last = pList2->last;
+    }
+    
+
     pList1->count += pList2->count;
     
     return_head(pList2);
@@ -327,7 +382,6 @@ void List_free(List* pList, FREE_FN pItemFreeFn){
         pList->current = pList->current->next;
         return_node(temp);
     }
-
     return_head(pList);
 }
 

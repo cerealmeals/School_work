@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+
 int main(){
 
     printf("hello world!\n");
@@ -33,18 +35,7 @@ int main(){
     List_prepend(list1, &thing4);
     print_list(list1);
 
-    // // should print 2
-    // int* print = List_last(list1);
-    // printf("last item in list is: %d\n", (*print));
-
-
-    // // should print 3
-    // print = List_prev(list1);
-    // printf("walk one backwards in list: %d\n", (*print));
-
-    // // remove current should be 3
-    // print = List_remove(list1);
-    // printf("the current item was remove this item is: %d\n", (*print));
+    
     List* list2 = List_create();
 
     for(int i = 0; i < 5; i++){
@@ -54,11 +45,12 @@ int main(){
     }
     print_list(list2);
 
-    // tests
-    int answer;
-    Test_List_create_empty();
 
-    answer = 5;
+    
+    // tests
+
+
+    int answer = 5;
     Test_List_count_normal(list2, answer);
 
     answer = 9;
@@ -96,11 +88,86 @@ int main(){
 
     Test_List_next_empty(list2, answer);
 
-    Test_List_pre_empty(list2, answer);
+    Test_List_prev_empty(list2, answer);
 
     Test_List_curr_empty(list2, answer);
 
+    answer = 10;
+    Test_List_insert_after_empty(list2, answer);
     
+    Test_List_insert_after_normal(list2, answer);
+
+    Test_List_remove_normal(list2, answer);
+    List_prev(list2);
+    print_list(list2);
+    Test_List_remove_last(list2, answer);
+
+    
+    Test_List_insert_before_empty(list2, answer);
+    
+    Test_List_insert_before_normal(list2, answer);
+    
+    Test_List_trim_normal(list2, answer);
+    List_prev(list2);
+    
+    Test_List_trim_last(list2, answer);
+
+    Test_List_trim_empty(list2, answer);
+
+    Test_List_remove_empty(list2, answer);
+
+    
+    Test_List_append_empty(list2, answer);
+    
+    Test_List_append_normal(list2, answer);
+    
+    Test_List_remove_normal(list2, answer);
+    List_prev(list2);
+    
+    Test_List_remove_last(list2, answer);
+
+    
+    Test_List_prepend_empty(list2, answer);
+    
+    Test_List_prepend_normal(list2, answer);
+    
+    Test_List_trim_normal(list2, answer);
+    
+    Test_List_trim_last(list2, answer);
+
+
+    List_prev(list1);
+    Test_List_curr_OOB_start(list1, answer);
+
+    COMPARATOR_FN test = compare;
+    answer = 2;
+    print_list(list1);
+    Test_List_search_OOB_start(list1, test, &answer);
+    Test_List_search_normal(list1, test, &answer);
+    
+    List_next(list1);
+    Test_List_curr_OOB_end(list1, answer);
+
+    Test_List_search_OOB_end(list1, test, &answer);
+
+    Test_List_concat_empty_list2(list1, list2);
+    
+    list2 = List_create();
+    
+    Test_List_concat_empty_list1(list2, list1);
+    
+    list1 = List_create();
+    
+    Test_List_free_empty(list1, free_er);
+    
+    list1 = List_create();
+    
+    Test_List_search_empty(list1, test, &answer);
+    
+    List_append(list1, &thing2);
+    
+    
+    Test_List_concat_normal(list1, list2);
 
 
     return 0;

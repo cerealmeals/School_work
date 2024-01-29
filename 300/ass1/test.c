@@ -11,8 +11,8 @@ void free_int(void* pItem) {
 }
 
 bool compare(void* arg1, void* arg2){
-    int* i = (int*)arg1;
-    int* j = (int*)arg2;
+    int i = *(int*)arg1;
+    int j = *(int*)arg2;
 
     if(i==j){
         return true;
@@ -23,21 +23,25 @@ bool compare(void* arg1, void* arg2){
 }
 
 void print_list(List* plist){
-    Node* starting_current = plist->current;
-    int* print = List_first(plist);
-    printf("List contains: %d,", (*print));
-    bool flag = true;
-    while(flag){
-        print = List_next(plist);
-        if(print != 0){
-            printf(" %d,", (*print));
+    printf("List contains: ");
+    if(plist->count != 0){
+        Node* starting_current = plist->current;
+        int* print = List_first(plist);
+        printf("%d,", (*print));
+        bool flag = true;
+        while(flag){
+            print = List_next(plist);
+            if(print != 0){
+                printf(" %d,", (*print));
+            }
+            else{
+                flag = false;
+            }
         }
-        else{
-            flag = false;
-        }
+        printf("\b ");
+        plist->current = starting_current;
     }
     printf("\n");
-    plist->current = starting_current;
 }
 
 void Test_List_create_normal(){
@@ -69,7 +73,7 @@ void Test_List_first_normal(List* plist, int answer){
 
 void Test_List_first_empty(List* plist, int answer){
     int* guess = List_first(plist);
-    assert(*guess == answer);
+    assert(guess == 0);
 }
 
 void Test_List_last_normal(List* plist, int answer){
@@ -79,7 +83,7 @@ void Test_List_last_normal(List* plist, int answer){
 
 void Test_List_last_empty(List* plist, int answer){
     int* guess = List_last(plist);
-    assert(*guess == answer);
+    assert(guess == 0);
 }
 
 void Test_List_next_normal(List* plist, int answer){
@@ -89,7 +93,7 @@ void Test_List_next_normal(List* plist, int answer){
 
 void Test_List_next_empty(List* plist, int answer){
     int* guess = List_next(plist);
-    assert(*guess == answer);
+    assert(guess == 0);
 }
 
 void Test_List_prev_normal(List* plist, int answer){
@@ -99,7 +103,7 @@ void Test_List_prev_normal(List* plist, int answer){
 
 void Test_List_prev_empty(List* plist, int answer){
     int* guess = List_prev(plist);
-    assert(*guess == answer);
+    assert(guess == 0);
 }
 
 void Test_List_curr_normal(List* plist, int answer){
@@ -109,17 +113,17 @@ void Test_List_curr_normal(List* plist, int answer){
 
 void Test_List_curr_empty(List* plist, int answer){
     int* guess = List_curr(plist);
-    assert(*guess == answer);
+    assert(guess == 0);
 }
 
 void Test_List_curr_OOB_end(List* plist, int answer){
     int* guess = List_curr(plist);
-    assert(*guess == answer);
+    assert(guess == 0);
 }
 
 void Test_List_curr_OOB_start(List* plist, int answer){
     int* guess = List_curr(plist);
-    assert(*guess == answer);
+    assert(guess == 0);
 }
 
 void Test_List_insert_after_normal(List* plist, int answer){
@@ -199,7 +203,7 @@ void Test_List_remove_normal(List* plist, int answer){
 
 void Test_List_remove_empty(List* plist, int answer){
     int* guess = List_remove(plist);
-    assert(*guess == answer);
+    assert(guess == 0);
 }
 
 void Test_List_remove_last(List* plist, int answer){
@@ -214,7 +218,7 @@ void Test_List_trim_normal(List* plist, int answer){
 
 void Test_List_trim_empty(List* plist, int answer){
     int* guess = List_trim(plist);
-    assert(*guess == answer);
+    assert(guess == 0);
 }
 
 void Test_List_trim_last(List* plist, int answer){
@@ -223,6 +227,10 @@ void Test_List_trim_last(List* plist, int answer){
 }
 
 void Test_List_concat_normal(List* plist1, List* plist2){
+    printf("list1: ");
+    print_list(plist1);
+    printf("list2: ");
+    print_list(plist2);
     int size1 = List_count(plist1);
     int size2 = List_count(plist2);
     List_concat(plist1, plist2);
@@ -232,6 +240,10 @@ void Test_List_concat_normal(List* plist1, List* plist2){
 }
 
 void Test_List_concat_empty_list1(List* plist1, List* plist2){
+    printf("list1: ");
+    print_list(plist1);
+    printf("list2: ");
+    print_list(plist2);
     int size1 = List_count(plist1);
     int size2 = List_count(plist2);
     List_concat(plist1, plist2);
@@ -241,6 +253,10 @@ void Test_List_concat_empty_list1(List* plist1, List* plist2){
 }
 
 void Test_List_concat_empty_list2(List* plist1, List* plist2){
+    printf("list1: ");
+    print_list(plist1);
+    printf("list2: ");
+    print_list(plist2);
     int size1 = List_count(plist1);
     int size2 = List_count(plist2);
     List_concat(plist1, plist2);
@@ -250,23 +266,29 @@ void Test_List_concat_empty_list2(List* plist1, List* plist2){
 }
 
 void Test_List_free_normal(List* plist, FREE_FN pItemFreeFn){
+    int cur_heads = free_heads_count();
+    int cur_nodes = free_nodes_count();
     List_free(plist, pItemFreeFn);
-    assert(plist == 0);
+    assert(cur_heads+1 == free_heads_count());
+    assert(cur_nodes+1 == free_nodes_count());
 }
 
 void Test_List_free_empty(List* plist, FREE_FN pItemFreeFn){
+    int cur_heads = free_heads_count();
+    int cur_nodes = free_nodes_count();
     List_free(plist, pItemFreeFn);
-    assert(plist == 0);
+    assert(cur_heads+1 == free_heads_count());
+    assert(cur_nodes == free_nodes_count());
 }
 
 void Test_List_search_normal(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg){
     int* guess = List_search(pList, pComparator, pComparisonArg);
-    assert(guess != 0);
+    assert(*guess != 0);
 }
 
 void Test_List_search_OOB_start(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg){
     int* guess = List_search(pList, pComparator, pComparisonArg);
-    assert(guess != 0);
+    assert(*guess != 0);
 }
 
 void Test_List_search_OOB_end(List* pList, COMPARATOR_FN pComparator, void* pComparisonArg){
