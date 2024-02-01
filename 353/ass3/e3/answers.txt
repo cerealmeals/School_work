@@ -1,0 +1,13 @@
+Question 1
+    I got better results with the Kalman smoothing,
+    I couldn't get the LOESS smoothing to ever follow the peaks enough.
+    I had enough trouble getting to Kalman smoothing to do it.
+Question 2
+    Speed could definitely be helpful in providing a bound to how far you could
+    move every observation. Heading can also be a good sanity check to make sure the 
+    movement is in the correct direction.
+
+As a final note I can see that my calculations are wrong for the data.
+I had 3 other assignments so this one was last priority I am handing this 
+in before the late penlty but hope the incorectness is worth less than 20%
+ 
