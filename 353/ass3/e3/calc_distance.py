@@ -52,13 +52,15 @@ def distance(points):
     lons = np.subtract(points2['lon'].values, points['lon'].values)*p
     #print(lats)
     #print(lons)
-    a = 0.5 - np.cos(lats)/2 + np.cos((points['lat'].values*p))*np.cos((points2['lat'].values*p))*(1-(np.cos(lons)/2))
-    #h = np.square(np.sin(lons))+np.cos((points['lat'].values*p))*np.cos((points2['lat'].values*p))*np.square(np.sin(lons))
-    #sum = np.sum(((2*R)*np.arcsin(np.sqrt(h))), where=boollist, dtype=np.float64)
-    dist = 2*R*np.arcsin(np.sqrt(a))
+    #a = 0.5 - np.cos(lats)/2 + np.cos((points['lat'].values*p))*np.cos((points2['lat'].values*p))*(1-(np.cos(lons)/2))
+    h = np.arccos(np.sin(points['lat'].values*p)*np.sin(points2['lat'].values*p)
+                  + np.cos(points['lat'].values*p)*np.cos(points2['lat'].values*p)
+                  * np.cos(lons)) * R
+    sum = np.sum(h, where=boollist)
+    #dist = 2*R*np.arcsin(np.sqrt(a))
     #print(dist)
-    sum = np.sum(dist, where=boollist)
-    return sum
+    #sum = np.sum(dist, where=boollist)
+    return sum*1000
 
 def smooth(points):
 
