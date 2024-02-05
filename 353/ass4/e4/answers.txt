@@ -1,0 +1,9 @@
+Question 1
+    No I do not think temperatures are a good way to predict population density.
+    The data is all over the place, most of the data is scattered in one area meaning
+    there is almost no relation as you can see from the r^2 value
+
+Question 2
+    Working with a compressed json file is faster because getting the compressed file
+    from disk to memory is faster when it is compressed. Because memory is so slow, decoding
+    the compressing is faster then loading an uncompressed version
