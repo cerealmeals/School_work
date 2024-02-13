@@ -1,0 +1,78 @@
+data-1 
+    max_x: 35.23705548785129
+    max_y: 27.38415261152477
+    min_x: -22.635877790008944
+    min_y: -2.565087832693213
+    std_x: 12.15551723122202
+    std_y: 6.63996400756785
+    mean_x: 8.71769618641382
+    mean_y: 12.522874034702584
+    corr: 0.9503256954375492
+    Generally the data slopes up and has a very strong positive correlation
+
+data-2
+    max_x: 27.6470003722073
+    max_y: 14.14731499231748
+    min_x: -33.2711130771198
+    min_y: -18.621803760419063
+    std_x: 11.481583587790734
+    std_y: 6.257917998755848
+    mean_x: -0.7107871267159572
+    mean_y: -0.7489869764497991
+    corr: 0.9551531665750372
+    Generally the data slopes up and has a very strong positive correlation
+    but there are a few outliers at the top and button but should probably be accepted
+    because they also fit the line.
+
+data-3
+    max_x: 4.51888491755363
+    max_y: 10.551871022804317
+    min_x: -2.4490643296742807
+    min_y: 6.641734490391763
+    std_x: 2.235557861057969
+    std_y: 1.1493008110024525
+    mean_x: 0.9689074904200939
+    mean_y: 8.508535236641327
+    corr: 0.9819372646760661
+    The correlation might make you think this is line sloping up but the data is
+    actually very clumped in small clusters along the line that slopes up
+
+data-4
+    max_x: 87.3767
+    max_y: 44.56504
+    min_x: 0.0
+    min_y: 0.0
+    std_x: 28.50861051988193
+    std_y: 16.545896442941682
+    mean_x: 49.90508614830509
+    mean_y: 18.553836525423726
+    corr: -0.08119306735490814
+    The data has little to no correlation because 
+    the data draws a boarded and the letters SFU
+
+data-5
+    max_x: 91.0528633396976
+    max_y: 49.93419703633311
+    min_x: 4.337892453674525
+    min_y: 0.0554975075811517
+    std_x: 28.500000943801354
+    std_y: 16.540796301840782
+    mean_x: 49.90999357843095
+    mean_y: 18.555524937729086
+    corr: -0.0882359898305888
+    The data is not correlation at all, 
+    but the data is almost discrete in the x direction
+    there are multiple line in the y direction
+
+data-6
+    max_x: 35.402138910929
+    max_y: 36.07987403078143
+    min_x: -24.33382075234097
+    min_y: -22.9563569970746
+    std_x: 11.921599067458311
+    std_y: 11.764382455006647
+    mean_x: 7.21615517960992
+    mean_y: 7.602215028237295
+    corr: 0.9350685662094909
+    The data is almost a perfect line positively sloped
+    there are two ontlier points that are messing up the corr number
