@@ -38,6 +38,8 @@ def main():
     df['weekend'] = df['date'].apply(lambda x: is_weekend(x))
     weekdays = df[df['weekend'] == 0]
     weekends = df[df['weekend'] == 1]
+    print('average weekday:', weekdays['comment_count'].agg('mean'))
+    print('average weekend:', weekends['comment_count'].agg('mean'))
     #plt.plot(df['comment_count'].values, df['weekend'].values, 'b.', alpha=0.5)
     #plt.savefig('data.png')
     #print(weekdays)
@@ -66,9 +68,9 @@ def main():
 
     U_test = stats.mannwhitneyu(weekdays['comment_count'].values, weekends['comment_count'].values)
 
-    counts, bins = np.histogram(endsgrouped)
-    plt.stairs(counts, bins)
-    plt.savefig('test_log_data.png')
+    # counts, bins = np.histogram(endsgrouped)
+    # plt.stairs(counts, bins)
+    # plt.savefig('test_log_data.png')
 
     print(OUTPUT_TEMPLATE.format(
         initial_ttest_p=s.pvalue,

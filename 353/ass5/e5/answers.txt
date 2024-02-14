@@ -1,0 +1,14 @@
+Question 1
+    Fix 2 (the central limit theorem) got the closest 
+    to satisfying the assumpyions of a T-test
+
+Question 2
+    T-test: would answer the question asked, are there a different number of Reddit comments
+    posted on weekdays than on weekends, if you reject the null hypothesis you can say
+    yes there are a different number of comments posted on weekdays than on weekends.
+
+Question 3
+    I think the central limit theorem approache works best because it shows the means
+    of each week and weekend.
+Question 4
+    on average more comments are posted on weekdays to r/canada
