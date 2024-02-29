@@ -1,0 +1,16 @@
+Question 1
+    I feel like some of the questions are p-hacking, specifically the ones about the instructors
+    when we reduce the count to just instructors the number of data points is small. I kow its above 
+    40 for the CLT but still it feels like randomness could just lead it to be "significant".
+
+Question 2
+    Well I did to t-test for each result because I didn't know the order before hand. It also 
+    gave an interesting result between a few quick sorts We need n-1 + n-2 + ... 2 + 1 
+    number of testin this case for n=7 its 21 the probability of one  p<0.05
+    by chance would be ~65% it is why I am not concidering pvalue's greater than 0.0001 
+
+Question 3
+    Ranking:  Partition_sort < qs1 < qs5 < qs2, qs4, qs3 < merge1
+    qs2 and qs4 are less distinguishable same with qs4 and qs3
+    but qs2 is distinguishable from qs3 which makes sence, but if I only checked
+    pvalues of neighbouring means that would not have been clear.

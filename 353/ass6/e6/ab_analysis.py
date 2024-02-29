@@ -40,7 +40,7 @@ def main():
 
     all_table1 = np.array([[old_count, new_count], [new_sum, old_sum]])
     all_results1 = stats.chi2_contingency(all_table1)
-
+    
     all_table2 = np.array([[old_search_sum, new_search_sum], [new_sum, old_sum]])
     all_results2 = stats.chi2_contingency(all_table2)
 
@@ -72,10 +72,10 @@ def main():
 
     # Output
     print(OUTPUT_TEMPLATE.format(
-        more_users_p=all_results1.pvalue,
-        more_searches_p=all_results2.pvalue,
-        more_instr_p=intructor_results1.pvalue,
-        more_instr_searches_p=intructor_results2.pvalue,
+        more_users_p=all_results1[1],
+        more_searches_p=all_results2[1],
+        more_instr_p=intructor_results1[1],
+        more_instr_searches_p=intructor_results2[1],
     ))
 
 if __name__ == '__main__':

@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 
 df = pd.DataFrame(columns=['type', 'time'])
-for i in range(100):
-    arr = np.random.randint(3000, size=300)
+for i in range(1400):
+    arr = np.random.randint(30000, size=3000)
     for sort in all_implementations:
         st = time.time()
         res = sort(arr)
