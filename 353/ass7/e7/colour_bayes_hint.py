@@ -3,6 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from skimage.color import lab2rgb
 import sys
+import sklearn as sk
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
 
 
 # representative RGB colours for each label, for nice display
@@ -67,18 +70,27 @@ def plot_predictions(model, lum=70, resolution=256):
 def main(infile):
     data = pd.read_csv(infile)
     X = data # array with shape (n, 3). Divide by 255 so components are all 0-1.
+    X = X[["R", "G", "B"]].to_numpy()
+    X = X/255
     y = data # array with shape (n,) of colour words.
+    y = y["Label"].to_numpy()
 
     # TODO: build model_rgb to predict y from X.
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+    model_rgb = GaussianNB()
+    model_rgb.fit(X,y)
+
     # TODO: print model_rgb's accuracy score
+    print("Training score: %g\nValidation score: %g" % (model_rgb.score(X_train, y_train), model_rgb.score(X_test, y_test)))
 
     # TODO: build model_lab to predict y from X by converting to LAB colour first.
+    
     # TODO: print model_lab's accuracy score
 
     plot_predictions(model_rgb)
     plt.savefig('predictions_rgb.png')
-    plot_predictions(model_lab)
-    plt.savefig('predictions_lab.png')
+    # plot_predictions(model_lab)
+    # plt.savefig('predictions_lab.png')
 
 
 if __name__ == '__main__':
