@@ -2,12 +2,13 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from skimage.color import lab2rgb
+from skimage.color import rgb2lab
 import sys
 import sklearn as sk
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import FunctionTransformer
-from skimage import colour
+
 from sklearn.pipeline import make_pipeline
 
 
@@ -88,9 +89,10 @@ def main(infile):
 
     # TODO: build model_lab to predict y from X by converting to LAB colour first.
     
-    transformer = FunctionTransformer(colour.rgb2lab)
+    # transformer = FunctionTransformer(color.rgb2lab)
     model_lab = make_pipeline(
-        transformer.transform(),
+        #transformer.transform(X),
+        FunctionTransformer(rgb2lab),
         GaussianNB()
     )
     model_lab.fit(X_train,y_train)

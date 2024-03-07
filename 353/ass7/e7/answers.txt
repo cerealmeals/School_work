@@ -1,0 +1,10 @@
+Question 1
+    The residuals are close to normal, they clump a lot around 0, to be expected,
+    and one tail is longer than the other. All together close. Yes I think we can trust
+    the P-value, since it is very small we can conclude that it is very unlikely that the
+    slope is zero and thus it is increasing.
+
+Question 2
+    No I think the original RGB version was better. The lab version seem to like green too much.
+    Although lab does actually see yellow and RGB didn't, I like the RGB better but they both 
+    have pros and cons.
