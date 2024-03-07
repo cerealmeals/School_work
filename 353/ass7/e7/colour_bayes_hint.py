@@ -6,6 +6,9 @@ import sys
 import sklearn as sk
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
+from sklearn.preprocessing import FunctionTransformer
+from skimage import colour
+from sklearn.pipeline import make_pipeline
 
 
 # representative RGB colours for each label, for nice display
@@ -78,19 +81,27 @@ def main(infile):
     # TODO: build model_rgb to predict y from X.
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
     model_rgb = GaussianNB()
-    model_rgb.fit(X,y)
+    model_rgb.fit(X_train,y_train)
 
     # TODO: print model_rgb's accuracy score
     print("Training score: %g\nValidation score: %g" % (model_rgb.score(X_train, y_train), model_rgb.score(X_test, y_test)))
 
     # TODO: build model_lab to predict y from X by converting to LAB colour first.
     
+    transformer = FunctionTransformer(colour.rgb2lab)
+    model_lab = make_pipeline(
+        transformer.transform(),
+        GaussianNB()
+    )
+    model_lab.fit(X_train,y_train)
+    
     # TODO: print model_lab's accuracy score
+    print("Training score: %g\nValidation score: %g" % (model_lab.score(X_train, y_train), model_lab.score(X_test, y_test)))
 
     plot_predictions(model_rgb)
     plt.savefig('predictions_rgb.png')
-    # plot_predictions(model_lab)
-    # plt.savefig('predictions_lab.png')
+    plot_predictions(model_lab)
+    plt.savefig('predictions_lab.png')
 
 
 if __name__ == '__main__':
