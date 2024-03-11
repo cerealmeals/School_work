@@ -11,6 +11,36 @@ Rasterizer.prototype.drawLine = function(v1, v2) {
   const [x1, y1, [r1, g1, b1]] = v1;
   const [x2, y2, [r2, g2, b2]] = v2;
   // TODO/HINT: use this.setPixel(x, y, color) in this function to draw line
+
+  // var m = (y2 - y1)/(x2-x1);
+  // switch(m){
+  //   case ((m < 0) && (m >= -1)):
+  //     for(let x = x1, y = y1; x <= x2; x--){
+  //       this.setPixel(Math.floor(x), Math.floor(y), [r1, g1, b1])
+  //       y += m;
+  //     }
+  //     break;
+  //     case ((m < 0) && (m < -1)):
+  //       for(let x = x1, y = y1; x <= x2; y--){
+  //         this.setPixel(Math.floor(x), Math.floor(y), [r1, g1, b1])
+  //         x += m;
+  //       }
+  //     break;
+  //     case ((m > 0) && (m > 1)):
+  //       for(let x = x1, y = y1; x <= x2; y++){
+  //         this.setPixel(Math.floor(x), Math.floor(y), [r1, g1, b1])
+  //         x += m;
+  //       }
+  //     break;
+  //     case ((m >= 0) && (m =< 1)):
+  //       for(let x = x1, y = y1; x <= x2; x++){
+  //         this.setPixel(Math.floor(x), Math.floor(y), [r1, g1, b1])
+  //         y += m;
+  //       }
+  //     break;
+  //     default:
+  // }
+
   this.setPixel(Math.floor(x1), Math.floor(y1), [r1, g1, b1]);
   this.setPixel(Math.floor(x2), Math.floor(y2), [r2, g2, b2]);
 }
@@ -49,4 +79,5 @@ const DEF_INPUT = [
 
 
 // DO NOT CHANGE ANYTHING BELOW HERE
-export { Rasterizer, Framebuffer, DEF_INPUT };
+export { DEF_INPUT, Framebuffer, Rasterizer };
+
