@@ -108,6 +108,10 @@ Rasterizer.prototype.drawLine = function(v1, v2) {
 }
 
 // take 3 vertices defining a solid triangle and rasterize to framebuffer
+pointIsInsideTriangle(v1,v2,v3,p){
+
+}
+
 Rasterizer.prototype.drawTriangle = function(v1, v2, v3) {
   const [x1, y1, [r1, g1, b1]] = v1;
   const [x2, y2, [r2, g2, b2]] = v2;
