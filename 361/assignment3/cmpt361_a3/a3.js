@@ -108,8 +108,28 @@ Rasterizer.prototype.drawLine = function(v1, v2) {
 }
 
 // take 3 vertices defining a solid triangle and rasterize to framebuffer
-pointIsInsideTriangle(v1,v2,v3,p){
+function CorrectSideOfLine(v0,v1,p){
+  let m = 0;
 
+  let a = v1[1] - v0[1];
+  let b = v0[0] - v1[0];
+  let c = v0[0]*v1[1] - v1[0]*v0[1];
+
+  m = a*p[0] + b*p[1] + c;
+
+  if(m >= 0){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+function pointIsInsideTriangle(v1,v2,v3,p){
+  
+  if(CorrectSideOfLine(v1,v2,p)&&CorrectSideOfLine(v2,v3,p)&&CorrectSideOfLine(v3,v1,p)){
+    return true;
+  }
+  else return false;
 }
 
 Rasterizer.prototype.drawTriangle = function(v1, v2, v3) {
