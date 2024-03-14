@@ -79,6 +79,8 @@ def main():
     data = pd.read_csv(sys.argv[1])
     X = data[['R', 'G', 'B']].values / 255
     y = data['Label'].values
+    print(type(X))
+    print(X)
 
     # TODO: create some models
     X_train, X_valid, y_train, y_valid = train_test_split(X, y, random_state=42)
