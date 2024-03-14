@@ -33,8 +33,8 @@ def get_clusters(X):
 def main():
     data = pd.read_csv(sys.argv[1])
 
-    X = # TODO
-    y = # TODO
+    X = 0 # TODO
+    y = 0 # TODO
     
     X2 = get_pca(X)
     clusters = get_clusters(X)

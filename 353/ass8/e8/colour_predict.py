@@ -2,7 +2,14 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from skimage.color import lab2rgb
+from skimage.color import rgb2lab
 import sys
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import FunctionTransformer
+from sklearn.pipeline import make_pipeline
 
 
 OUTPUT_TEMPLATE = (
@@ -59,9 +66,6 @@ def plot_predictions(model, lum=70, resolution=256):
     plt.title('Inputs')
     plt.xticks(np.linspace(0, wid, n_ticks), np.linspace(-100, 100, n_ticks))
     plt.yticks(np.linspace(0, hei, n_ticks), np.linspace(-100, 100, n_ticks))
-    plt.xlabel('A')
-    plt.ylabel('B')
-    plt.imshow(X_grid.reshape((hei, wid, -1)))
 
     plt.subplot(1, 2, 2)
     plt.title('Predicted Labels')
@@ -77,6 +81,23 @@ def main():
     y = data['Label'].values
 
     # TODO: create some models
+    X_train, X_valid, y_train, y_valid = train_test_split(X, y, random_state=42)
+
+    bayes_rgb_model = GaussianNB()
+    bayes_convert_model = make_pipeline(
+        FunctionTransformer(rgb2lab),
+        GaussianNB()
+    )
+    knn_rgb_model = KNeighborsClassifier(n_neighbors=10)
+    knn_convert_model = make_pipeline(
+        FunctionTransformer(rgb2lab),
+        KNeighborsClassifier(n_neighbors=10)
+    )
+    rf_rgb_model = RandomForestClassifier(n_estimators=100, max_depth=7, min_samples_leaf=11)
+    rf_convert_model= make_pipeline(
+        FunctionTransformer(rgb2lab),
+        RandomForestClassifier(n_estimators=100, max_depth=7, min_samples_leaf=11)
+    )
 
     # train each model and output image of predictions
     models = [bayes_rgb_model, bayes_convert_model, knn_rgb_model, knn_convert_model, rf_rgb_model, rf_convert_model]
