@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from skimage.color import lab2rgb
 from skimage.color import rgb2lab
+from skimage.color import rgb2hsv
 import sys
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
@@ -79,15 +80,13 @@ def main():
     data = pd.read_csv(sys.argv[1])
     X = data[['R', 'G', 'B']].values / 255
     y = data['Label'].values
-    print(type(X))
-    print(X)
 
     # TODO: create some models
     X_train, X_valid, y_train, y_valid = train_test_split(X, y, random_state=42)
 
     bayes_rgb_model = GaussianNB()
     bayes_convert_model = make_pipeline(
-        FunctionTransformer(rgb2lab),
+        FunctionTransformer(rgb2hsv),
         GaussianNB()
     )
     knn_rgb_model = KNeighborsClassifier(n_neighbors=10)

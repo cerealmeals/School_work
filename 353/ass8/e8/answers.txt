@@ -1,0 +1,13 @@
+Question 1:
+    HSV seemed to work best for GaussianNB classifier
+    LAB seemed to work best for the other two K-means and random forrest
+
+    Even thought the pictures I find to be better when RGB is used
+    the scores tell a different story.
+    
+    I think HSV worked best for GaussianNB because only one varriable is change to change colour.
+
+Question 2:
+    Most mistakes it made were between cities that are close in distance and thus have similar weather.
+    Although it mistakes with London were really bad.
+    Maybe adding wind speeds would help diferentiate between different places.

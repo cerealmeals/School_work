@@ -26,12 +26,16 @@ def main():
     )
     model.fit(X_train, y_train)
 
-    print("Score of Random Forrest Classifier on training data:", model.score(X_train, y_train))
+    # print("Score of Random Forrest Classifier on training data:", model.score(X_train, y_train))
     print("Score of Random Forrest Classifier on validation data:", model.score(X_valid, y_valid))
 
 
     predictions = model.predict(oops_data)
-    print(predictions)
+    # print(predictions)
+
+    pd.set_option('display.max_rows', None)
+    df = pd.DataFrame({'truth': y_valid, 'prediction': model.predict(X_valid)})
+    print(df[df['truth'] != df['prediction']])
 
     pd.Series(predictions).to_csv(sys.argv[3], index=False, header=False)
 
