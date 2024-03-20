@@ -33,9 +33,9 @@ def main():
     predictions = model.predict(oops_data)
     # print(predictions)
 
-    pd.set_option('display.max_rows', None)
-    df = pd.DataFrame({'truth': y_valid, 'prediction': model.predict(X_valid)})
-    print(df[df['truth'] != df['prediction']])
+    # pd.set_option('display.max_rows', None)
+    # df = pd.DataFrame({'truth': y_valid, 'prediction': model.predict(X_valid)})
+    # print(df[df['truth'] != df['prediction']])
 
     pd.Series(predictions).to_csv(sys.argv[3], index=False, header=False)
 
