@@ -1,0 +1,16 @@
+Question 1
+    (1) 0m4.081s
+    (2) 0m5.887s
+    (3) 0m4.845s
+    (4) 0m4.499s
+
+Question 2
+    Most of the time spend is reading the file, if you find ways to reduce
+    the amount of times it reads the file the time goes down.
+
+    it looks like reading the file takes about ~0.5 seconds, but the difference
+    between starting spark and doing nothing, and reading the file once with caching
+    is ~0.5 so calculating takes almost no time.
+
+Question 3
+    
