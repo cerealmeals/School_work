@@ -13,4 +13,8 @@ Question 2
     is ~2 so calculating takes very little time.
 
 Question 3
+    I used cache() right before I used the dataframe-pages back to back without rewriting to it
+    So up to line 45 within the Main() if I was smarter I think that could have been all one line
+    because it is all in serial, but lines 50 and 52 each use pages and can run in parrallel
+    so sparks lazyness would have thrown out pages after line 50 and had to redo for line 52. 
     

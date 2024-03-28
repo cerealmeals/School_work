@@ -37,11 +37,23 @@ def main(in_directory, out_directory):
     pages = pages.withColumn('filename', file_to_date(pages.filename))
     pages = pages.drop('bytes').drop('language')
 
-    groups = pages.groupby('filename').max('visits')
-    groups 
+    # groups = pages.groupby('filename').agg(functions.max(functions.array('visits', 'title')).alias('max_visits')).select(
+    #     functions.col('filename'),
+    #     functions.col('max_visits')[1].alias('title'),
+    #     functions.col('max_visits')[0].alias('visits'),
+    # )
+    pages.cache()
 
-    groups.write.csv(out_directory, mode='overwrite')
-    groups.show(); return
+    groups = pages.groupby('filename').agg(functions.max('visits').alias('visits'))
+
+    conditions = [pages.filename == groups.filename, pages.visits == groups.visits]
+    pages = pages.join(groups, on=['filename', 'visits'], how='right')
+    
+    pages = pages.sort(['filename', 'title'])
+
+    pages.write.csv(out_directory, mode='overwrite')
+    #groups.show()
+    #pages.show(); return
 
 
 
