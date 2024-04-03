@@ -1,0 +1,6 @@
+Question 1
+    I used cache both time before I made a group then joined it back to the comments.
+    If I had not after the grouping the comments would have been thrown away and then re-calculated for the join.
+
+Question 2
+    Broadcasting improved the time from 0m10.116s to 0m8.813s, so it took ~87% of the time.

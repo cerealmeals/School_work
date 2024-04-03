@@ -29,7 +29,7 @@ def main():
     # print("Score of Random Forrest Classifier on training data:", model.score(X_train, y_train))
     print("Score of Random Forrest Classifier on validation data:", model.score(X_valid, y_valid))
 
-
+    
     predictions = model.predict(oops_data)
     # print(predictions)
 
