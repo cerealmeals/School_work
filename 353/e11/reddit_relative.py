@@ -37,9 +37,42 @@ comments_schema = types.StructType([
 def main(in_directory, out_directory):
     comments = spark.read.json(in_directory, schema=comments_schema)
 
-    # TODO
+    comments = comments.select(
+        comments.subreddit,
+        comments.author,
+        comments.score,
+    )
 
-    #best_author.write.json(out_directory, mode='overwrite')
+    comments.cache()
+    # TODO
+    averages = comments.groupby('subreddit').agg({'score': 'mean'}).withColumnRenamed('avg(score)', 'avg')
+    
+    averages = averages.where(averages.avg > 0)
+
+    # assigment said it was ok to broadcast, also the data is only 800mb so should be safe and this was reduced by th grouing
+    functions.broadcast(averages)
+    comments = comments.join(averages, on='subreddit', how='left')
+
+    comments = comments.withColumn('rel_score', comments.score / comments.avg)
+
+    comments.cache()
+
+    # maximun = comments.groupby('subreddit').agg({'rel_score': 'max'}).withColumnRenamed('max(rel_score)', 'max')
+    maximun = comments.groupby('subreddit').agg(functions.max('rel_score').alias('rel_score'))
+
+    # assigment said it was ok to broadcast, also the data is only 800mb so should be safe and this was reduced by th grouing
+    functions.broadcast(maximun)
+    best_author = comments.join(maximun, on=['subreddit', 'rel_score'], how='right')
+    
+    best_author = best_author.select(
+        best_author.subreddit,
+        best_author.author,
+        best_author.rel_score,
+    )
+    # maximun.show(); return 
+    # comments.show(); return 
+    # averages.show(); return 
+    best_author.write.json(out_directory, mode='overwrite')
 
 
 if __name__=='__main__':

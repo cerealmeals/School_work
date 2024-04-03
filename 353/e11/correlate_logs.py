@@ -1,5 +1,6 @@
 import sys
 from pyspark.sql import SparkSession, functions, types, Row
+from pyspark import RDD
 import re
 
 spark = SparkSession.builder.appName('correlate logs').getOrCreate()
@@ -15,10 +16,17 @@ def line_to_row(line):
     """
     Take a logfile line and return a Row object with hostname and bytes transferred. Return None if regex doesn't match.
     """
+    print(line)
     m = line_re.match(line)
+    print(m)
     if m:
         # TODO
+        print('if')
+        print(m.s)
+        return not_none((m.start()))
     else:
+        print('else')
+        print(m)
         return None
 
 
@@ -26,17 +34,20 @@ def not_none(row):
     """
     Is this None? Hint: .filter() with it.
     """
+    print('not_none')
     return row is not None
 
 
 def create_row_rdd(in_directory):
     log_lines = spark.sparkContext.textFile(in_directory)
+
+    return log_lines.map(lambda x: line_to_row(x))
     # TODO: return an RDD of Row() objects
 
 
 def main(in_directory):
     logs = spark.createDataFrame(create_row_rdd(in_directory))
-
+    logs.show(); return
     # TODO: calculate r.
 
     r = 0 # TODO: it isn't zero.
