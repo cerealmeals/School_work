@@ -38,7 +38,22 @@ def shopAroundTown(orderList, fruitTown, gasCost):
     buying the fruit in the orderList
     """
     "*** YOUR CODE HERE ***"
-    return None
+    # print("start")
+    route = getAllSubsets(fruitTown.getShops())
+    all_routes = []
+    for x in route:
+        perm_x = getAllPermutations(x)
+        all_routes += perm_x
+
+    lowest = float("inf")
+    ret = []
+    for route in all_routes:
+        if fruitTown.allFruitsCarriedAtShops(orderList, route):
+            current = fruitTown.getPriceOfOrderOnRoute(orderList, route, gasCost)
+            if (lowest > current):
+                lowest = current
+                ret = route
+    return ret
 
 
 def getAllSubsets(lst):
