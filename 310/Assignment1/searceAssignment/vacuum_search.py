@@ -138,9 +138,9 @@ class VacuumPlanning(Problem):
         """To be used for UCS and A* search. Returns the cost of a solution path that arrives at state2 from
         state2 via action, assuming it costs c to get up to state1. For our problem state is (x, y) coordinate pair. 
         Rotation of the Vacuum machine costs equivalent of 0.5 unit for each 90' rotation. """
-        print("path_cost: to be done by students")
+        #print("path_cost: to be done by students")
         cost = curNode.path_cost
-        print("Your code goes here.\n")
+        #print("Your code goes here.\n")
         
         return cost
 
