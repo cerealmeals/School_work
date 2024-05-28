@@ -204,6 +204,24 @@ def best_first_graph_search(problem, f=None):
     a best first search you can examine the f values of the path returned."""
     f = memoize(f or problem.h, 'f')
     node = Node(problem.initial)
+    if problem.goal_test(node.state):
+        return node, None
+
+    frontier = [node]
+    explored = set()
+    explored.add(tuple(node.state))
+
+    while(len(frontier) != 0):
+        current = frontier.pop(0)
+        if problem.goal_test(current.state):
+                return current, explored
+        for child in current.expand(problem):
+            s = tuple(child.state)
+            
+            if (s not in explored):
+                frontier.append(child)
+        explored.add(tuple(current.state))
+
     print("best_first_graph_search: Your code goes here")
     return None, None
 
