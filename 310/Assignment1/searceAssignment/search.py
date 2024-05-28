@@ -148,6 +148,7 @@ def breadth_first_graph_search(problem):
     frontier = [node]
 
     explored = set()
+    explored.add(tuple(node.state))
 
     while(len(frontier) != 0):
         current = frontier.pop(0)
@@ -202,6 +203,7 @@ def best_first_graph_search(problem, f=None):
     There is a subtlety: the line "f = memoize(f, 'f')" means that the f
     values will be cached on the nodes as they are computed. So after doing
     a best first search you can examine the f values of the path returned."""
+
     f = memoize(f or problem.h, 'f')
     node = Node(problem.initial)
     if problem.goal_test(node.state):
@@ -218,9 +220,9 @@ def best_first_graph_search(problem, f=None):
         for child in current.expand(problem):
             s = tuple(child.state)
             
-            if (s not in explored):
+            if (s not in explored) or child.path_cost < explored[s].path_cost:
                 frontier.append(child)
-        explored.add(tuple(current.state))
+                explored.add(tuple(current.state))
 
     print("best_first_graph_search: Your code goes here")
     return None, None
