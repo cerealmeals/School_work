@@ -220,7 +220,12 @@ def best_first_graph_search(problem, f=None):
         for child in current.expand(problem):
             s = tuple(child.state)
             
-            if (s not in explored) or child.path_cost < explored[s].path_cost:
+            if (s not in explored):
+                frontier.append(child)
+                explored.add(tuple(current.state))
+            # print(explored)
+            # print(frontier)
+            if (s in explored):
                 frontier.append(child)
                 explored.add(tuple(current.state))
 
