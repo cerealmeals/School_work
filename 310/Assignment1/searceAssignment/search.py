@@ -152,13 +152,14 @@ def breadth_first_graph_search(problem):
 
     while(len(frontier) != 0):
         current = frontier.pop(0)
+        explored.add(tuple(current.state))
         for child in current.expand(problem):
             s = tuple(child.state)
             if problem.goal_test(child.state):
                 return child, explored
             if (s not in explored):
                 frontier.append(child)
-        explored.add(tuple(current.state))
+        
         
     print("breadth_first_graph_search:\n Your code goes here.")
     return None, None
@@ -184,13 +185,14 @@ def depth_first_graph_search(problem):
 
     while(len(frontier) != 0):
         current = frontier.pop(len(frontier)-1)
+        explored.add(tuple(current.state))
         for child in current.expand(problem):
             s = tuple(child.state)
             if problem.goal_test(child.state):
                 return child, explored
             if (s not in explored):
                 frontier.append(child)
-        explored.add(tuple(current.state))
+        
     print("depth_first_graph_search:\n Your code goes here.")
     return None, None
 
@@ -208,26 +210,25 @@ def best_first_graph_search(problem, f=None):
     node = Node(problem.initial)
     if problem.goal_test(node.state):
         return node, None
-
-    frontier = [node]
+    frontier = PriorityQueue('min', f)
+    frontier.append(node) 
     explored = set()
     explored.add(tuple(node.state))
 
     while(len(frontier) != 0):
-        current = frontier.pop(0)
+        current = frontier.pop()
         if problem.goal_test(current.state):
                 return current, explored
+        explored.add(tuple(current.state))
         for child in current.expand(problem):
             s = tuple(child.state)
-            
-            if (s not in explored):
+            if (s not in explored) or child not in frontier:
                 frontier.append(child)
-                explored.add(tuple(current.state))
-            # print(explored)
-            # print(frontier)
-            if (s in explored):
-                frontier.append(child)
-                explored.add(tuple(current.state))
+            elif child in frontier:
+                if f(child) < frontier[child]:
+                    del frontier[child]
+                    frontier.append(child)
+        
 
     print("best_first_graph_search: Your code goes here")
     return None, None
