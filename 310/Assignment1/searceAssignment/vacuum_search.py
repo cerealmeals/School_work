@@ -139,13 +139,23 @@ class VacuumPlanning(Problem):
         state2 via action, assuming it costs c to get up to state1. For our problem state is (x, y) coordinate pair. 
         Rotation of the Vacuum machine costs equivalent of 0.5 unit for each 90' rotation. """
         #print("path_cost: to be done by students")
-        cost = curNode.path_cost
+        # print("this is state1:")
+        # print(state1)
+        # print("this is the action:")
+        # print(action)
+        # print("this is state2:")
+        # print(state2)
+        cost = curNode.path_cost + 1
         #print("Your code goes here.\n")
         
         return cost
 
     def computeTurnCost(self, action1, action):
         print("computeTurnCost: to be done by students")
+        print("action:")
+        print(action)
+        print("action1:")
+        print(action1)
         print(" Your code goes here\n")
         return 0
 
