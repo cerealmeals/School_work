@@ -139,24 +139,58 @@ class VacuumPlanning(Problem):
         state2 via action, assuming it costs c to get up to state1. For our problem state is (x, y) coordinate pair. 
         Rotation of the Vacuum machine costs equivalent of 0.5 unit for each 90' rotation. """
         #print("path_cost: to be done by students")
-        # print("this is state1:")
-        # print(state1)
-        # print("this is the action:")
-        # print(action)
-        # print("this is state2:")
-        # print(state2)
-        cost = curNode.path_cost + 1
-        #print("Your code goes here.\n")
         
+        cost = 0
+        if args['costFunc'] == 'StepTurn':
+            cost = self.computeTurnCost(curNode.action, action)
+        elif args['costFunc'] == 'StayUp':
+            cost = 10 # use the states to figure this one out
+        elif args['costFunc'] == 'StayLeft':
+            cost = 20 # use the states to figure this one out
+
+        #print("Your code goes here.\n")
+        cost = curNode.path_cost + cost + 1
+        #print(cost)
         return cost
 
     def computeTurnCost(self, action1, action):
-        print("computeTurnCost: to be done by students")
-        print("action:")
-        print(action)
-        print("action1:")
-        print(action1)
-        print(" Your code goes here\n")
+        # print("computeTurnCost: to be done by students")
+        if action1 == action:
+            return 0
+        match action1:
+            case 'UP':
+                if action == 'RIGHT':
+                    return 0.5
+                elif action == 'LEFT':
+                    return 0.5
+                else:
+                    return 1
+            case 'DOWN':
+                if action == 'RIGHT':
+                    return 0.5
+                elif action == 'LEFT':
+                    return 0.5
+                else:
+                    return 1
+            case 'LEFT':
+                if action == 'UP':
+                    return 0.5
+                elif action == 'DOWN':
+                    return 0.5
+                else:
+                    return 1
+            case 'RIGHT':
+                if action == 'UP':
+                    return 0.5
+                elif action == 'DOWN':
+                    return 0.5
+                else:
+                    return 1
+            case _:
+                print("computeTurnCost fail switch statement but returned 0")
+                return 0
+
+        # print(" Your code goes here\n")
         return 0
 
     def findMinManhattanDist(self, pos):
@@ -186,7 +220,6 @@ class VacuumPlanning(Problem):
         return minDist
         #print(" Your code goes here\n")
 
-        return 0
     def h(self, node):
         """ Return the heuristic value for a given state. For this problem use minimum Manhattan
         distance to a dirty room, among all the dirty rooms.
@@ -195,7 +228,11 @@ class VacuumPlanning(Problem):
         #print("h(heuristic): to be defined and implemented by students.")
         heur = math.inf
         for point in env.dirtyRooms:
-            curDist = manhattan_distance(node.state, point)
+            curDist = 0
+            if args['heuristic'] == 'Manhattan':
+                curDist = manhattan_distance(node.state, point)
+            else:
+                curDist = euclidean_distance(node.state, point)
             if curDist < heur:
                 heur = curDist
         return heur
