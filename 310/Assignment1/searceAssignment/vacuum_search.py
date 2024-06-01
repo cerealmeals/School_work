@@ -140,22 +140,26 @@ class VacuumPlanning(Problem):
         Rotation of the Vacuum machine costs equivalent of 0.5 unit for each 90' rotation. """
         #print("path_cost: to be done by students")
         
-        cost = 0
-        if args['costFunc'] == 'StepTurn':
-            cost = self.computeTurnCost(curNode.action, action)
+        # print(type(curNode))
+        if args['costFunc'] == 'Step':
+            return curNode.path_cost +  1
+        elif args['costFunc'] == 'StepTurn':
+            turnCost = self.computeTurnCost(curNode.action, action)
+            print("The turn cost is " + str(turnCost))
+            return curNode.path_cost +  1 + 5 *turnCost
         elif args['costFunc'] == 'StayUp':
-            cost = 10 # use the states to figure this one out
+            return curNode.path_cost + 10 # use the states to figure this one out
         elif args['costFunc'] == 'StayLeft':
-            cost = 20 # use the states to figure this one out
-
+            return curNode.path_cost + 20 # use the states to figure this one out
+        else:
+            print("Path_cost fell through if ladder")
+            return curNode.path_cost + 1
         #print("Your code goes here.\n")
-        cost = curNode.path_cost + cost + 1
-        #print(cost)
-        return cost
+        
 
     def computeTurnCost(self, action1, action):
         # print("computeTurnCost: to be done by students")
-        if action1 == action:
+        if action1 == action or action1 == None:
             return 0
         match action1:
             case 'UP':
@@ -200,7 +204,7 @@ class VacuumPlanning(Problem):
         #print("findMinManhattanDist: to be done by students.")
         minDist = math.inf
         for point in env.dirtyRooms:
-            curDist = manhattan_distance(pos, point)
+            curDist = distance_manhattan(pos, point)
             if curDist < minDist:
                 minDist = curDist
         return minDist
@@ -214,7 +218,7 @@ class VacuumPlanning(Problem):
         #print("findMinEuclidDist: to be done by students.")
         minDist = math.inf
         for point in env.dirtyRooms:
-            curDist = euclidean_distance(pos, point)
+            curDist = distance_euclid(pos, point)
             if curDist < minDist:
                 minDist = curDist
         return minDist
@@ -226,16 +230,12 @@ class VacuumPlanning(Problem):
         hint: 
         """
         #print("h(heuristic): to be defined and implemented by students.")
-        heur = math.inf
-        for point in env.dirtyRooms:
-            curDist = 0
-            if args['heuristic'] == 'Manhattan':
-                curDist = manhattan_distance(node.state, point)
-            else:
-                curDist = euclidean_distance(node.state, point)
-            if curDist < heur:
-                heur = curDist
-        return heur
+        
+        if args['heuristic'] == 'Manhattan':
+            return self.findMinManhattanDist(node.state)
+        else:
+            return self.findMinEuclidDist(node.state)
+        
         #print(" Your code goes here\n")
         
 
@@ -588,6 +588,8 @@ class Gui(VacuumEnvironment):
             delay = 0.5
         else:
             delay = 0.2
+        
+        delay = 0.05
 
         self.running = True
         while self.done is not True:
