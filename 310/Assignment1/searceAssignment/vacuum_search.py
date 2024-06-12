@@ -141,18 +141,27 @@ class VacuumPlanning(Problem):
         #print("path_cost: to be done by students")
         
         # print(type(curNode))
+        
         if args['costFunc'] == 'Step':
             return curNode.path_cost +  1
         elif args['costFunc'] == 'StepTurn':
-            turnCost = self.computeTurnCost(curNode.action, action)
-            print("The turn cost is " + str(turnCost))
-            return curNode.path_cost +  1 + 5 *turnCost
-        elif args['costFunc'] == 'StayUp':
-            return curNode.path_cost + 10 # use the states to figure this one out
+            return curNode.path_cost + self.computeTurnCost(curNode.action, action)
+        elif args['costFunc'] == 'StayTop':
+            if state1[1] < state2[1]: 
+                return curNode.path_cost
+            elif state1[1] > state2[1]:
+                return curNode.path_cost + 2
+            else:
+                return curNode.path_cost + 1
         elif args['costFunc'] == 'StayLeft':
-            return curNode.path_cost + 20 # use the states to figure this one out
+            if state1[0] > state2[0]:
+                return curNode.path_cost
+            elif state1[0] < state2[0]:
+                return curNode.path_cost + 2
+            else:
+                return curNode.path_cost + 1
         else:
-            print("Path_cost fell through if ladder")
+            print("Path_cost fell through if else ladder")
             return curNode.path_cost + 1
         #print("Your code goes here.\n")
         
@@ -195,7 +204,7 @@ class VacuumPlanning(Problem):
                 return 0
 
         # print(" Your code goes here\n")
-        return 0
+        
 
     def findMinManhattanDist(self, pos):
         """use distance_manhattan() function to find the min distance between position pos and any of the dirty rooms.
