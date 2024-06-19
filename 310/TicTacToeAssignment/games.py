@@ -53,21 +53,36 @@ def minmax(game, state):
     return max(game.actions(state), key=lambda a: min_value(game.result(state, a)), default=None)
 
 
-def minmax_cutoff(game, state):
+def minmax_cutoff(game, state, d):
     """Given a state in a game, calculate the best move by searching
     forward all the way to the cutoff depth. At that level use evaluation func."""
 
     player = game.to_move(state)
 
-    def max_value(state, d):
-        print("Your code goes here -3pt")
+    def max_value(state, depth):
+        if game.terminal_test(state):
+            return game.utility(state, player)
+        elif d == depth:
+            return game.eval1(state)
+        depth += 1
+        v = -np.inf
+        for a in game.actions(state):
+            v = max(v, min_value(game.result(state, a), depth))
+        return v
+        # print("Your code goes here -3pt minmax_cutoff_max")
 
-        return 0
 
-    def min_value(state, d):
-        print("Your code goes here -2pt")
-
-        return 0
+    def min_value(state, depth):
+        if game.terminal_test(state):
+            return game.utility(state, player)
+        if d == depth:
+            return game.eval1(state)
+        depth += 1
+        v = np.inf
+        for a in game.actions(state):
+            v = min(v, max_value(game.result(state, a), depth))
+        return v
+        # print("Your code goes here -2pt minmax_cutoff_min")
 
     # Body of minmax_cutoff:
     return max(game.actions(state), key=lambda a: min_value(game.result(state, a), 0), default=None)
@@ -84,27 +99,41 @@ def alpha_beta(game, state):
     def max_value(state, alpha, beta):
         if game.terminal_test(state):
             return game.utility(state, player)
-        print("Your code goes here -3pt")
+        v = -np.inf
+        for a in game.actions(state):
+            v = max(v, min_value(game.result(state, a), alpha, beta))
+            if v >= beta:
+                return v
+            alpha = max(alpha, v)
+        return v
+        # print("Your code goes here -3pt alpha_beta_search_max")
 
-        return 0
+        # return 0
 
     def min_value(state, alpha, beta):
         if game.terminal_test(state):
             return game.utility(state, player)
-        print("Your code goes here -2pt")
+        v = np.inf
+        for a in game.actions(state):
+            v = min(v, max_value(game.result(state,a), alpha, beta))
+            if v <= alpha:
+                return v
+            beta = min(beta, v)
+        return v
+        # print("Your code goes here -2pt alpha_beta_search_min")
 
-        return 0
+        # return 0
 
     # Body of alpha_beta_search:
     alpha = -np.inf
     beta = np.inf
     best_action = None
-    print("Your code goes here -10pt")
+    print("Your code goes here -10pt alpha_beta")
 
-    return best_action
+    return max(game.actions(state), key=lambda a: min_value(game.result(state, a), alpha, beta), default=None)
 
 
-def alpha_beta_cutoff(game, state):
+def alpha_beta_cutoff(game, state, d):
     """Search game to determine best action; use alpha-beta pruning.
     This version cuts off search and uses an evaluation function."""
     player = game.to_move(state)
@@ -113,14 +142,14 @@ def alpha_beta_cutoff(game, state):
     def max_value(state, alpha, beta, depth):
         if game.terminal_test(state):
             return game.utility(state, player)
-        print("Your code goes here -3pt")
+        print("Your code goes here -3pt alpha_beta_cutoff_max")
 
         return 0
 
     def min_value(state, alpha, beta, depth):
         if game.terminal_test(state):
             return game.utility(state, player)
-        print("Your code goes here -2pt")
+        print("Your code goes here -2pt alpha_beta_cutoff_min")
 
         return 0
 
@@ -129,7 +158,7 @@ def alpha_beta_cutoff(game, state):
     alpha = -np.inf
     beta = np.inf
     best_action = None
-    print("Your code goes here -10pt")
+    print("Your code goes here -10pt alpha_beta_cutoff")
 
     return best_action
 
@@ -161,41 +190,57 @@ def random_player(game, state):
 
 def alpha_beta_player(game, state):
     """uses alphaBeta prunning with minmax, or with cutoff version, for AI player"""
-    print("Your code goes here -2pt")
+    print("Your code goes here -2pt alpha_beta_player")
     """Use a method to speed up at the start to avoid search down a long tree with not much outcome.
     Hint: for speedup use random_player for start of the game when you see search time is too long"""
 
     if( game.timer < 0):
         game.d = -1
         return alpha_beta(game, state)
+    else:
+        game.d = 1
 
     start = time.perf_counter()
     end = start + game.timer
     """use the above timer to implement iterative deepening using alpha_beta_cutoff() version"""
     move = None
-    print("Your code goes here -10pt")
 
-    print("iterative deepening to depth: ", game.d)
+    while time.perf_counter() < end:
+        
+        print("Your code goes here -10pt alpha_beta_player")
+
+        print("iterative deepening to depth: ", game.d)
+        move = alpha_beta_cutoff(game, state, game.d)
+        game.d = game.d + 1
+
     return move
 
 
 def minmax_player(game, state):
     """uses minmax or minmax with cutoff depth, for AI player"""
-    print("Your code goes here -3pt")
+    print("Your code goes here -3pt minmax_player")
     """Use a method to speed up at the start to avoid search down a long tree with not much outcome.
     Hint:for speedup use random_player for start of the game when you see search time is too long"""
-
+    
     if( game.timer < 0):
         game.d = -1
         return minmax(game, state)
-
+    else:
+        game.d = 1
+    
     start = time.perf_counter()
     end = start + game.timer
     """use the above timer to implement iterative deepening using minmax_cutoff() version"""
     move = None
-    print("Your code goes here -10pt")
 
-    print("iterative deepening to depth: ", game.d)
+    while time.perf_counter() < end:
+
+        # print("Your code goes here -10pt minmax_player")
+
+        print("iterative deepening to depth: ", game.d)
+        move = minmax_cutoff(game, state, game.d)
+        game.d = game.d + 1
+
     return move
 
 
@@ -324,7 +369,7 @@ class TicTacToe(Game):
             return 0
         
     # evaluation function, version 1
-    def eval1(self, state):
+    def eval1(self, state,):
         """design and implement evaluation function for state.
         Some ideas: 1-use the number of k-1 matches for X and O For this you can use function possibleKComplete().
             : 2- expand it for all k matches
@@ -342,13 +387,39 @@ class TicTacToe(Game):
             match = match + self.k_in_row(board, move, player, (1, 1), k)
             return match
 
+        def playerScore(board, player, k):
+            counter = 0
+            for i in range(1, self.k+1):
+                for j in range(1, self.k+1):
+                    if self.k_in_row(board, (i, j), player, (0, 1), k):
+                        counter += 1
+                    if self.k_in_row(board, (i, j), player, (1, 0), k):
+                        counter += 1
+                    if self.k_in_row(board, (i, j), player, (1, -1), k):
+                        counter += 1
+                    if self.k_in_row(board, (i, j), player, (1, 1), k):
+                        counter += 1
+            counter /= counter
+            if counter == 1:
+                return k /self.k
+            elif counter >= 2:
+                return (k+1) / (self.k+1)
+            return 0
+        
         # Maybe to accelerate, return 0 if number of pieces on board is less than half of board size:
         #if len(state.moves) <= self.k / 2:
         #    return 0
+        
+        to_return = -np.inf
+        for i in range(1, self.k):
+            X_score = playerScore(state.board.copy(), 'X', i)
+            O_score = playerScore(state.board.copy(), 'O', i)
+            if to_return < X_score - O_score:
+                to_return = X_score - O_score
+            
+        print("Your code goes here 15pt. Eval1", to_return)
 
-        print("Your code goes here 15pt.")
-
-        return 0
+        return to_return
 
 
 

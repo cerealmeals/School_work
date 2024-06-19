@@ -49,16 +49,16 @@ class MCTS: #Monte Carlo Tree Search implementation
         #while count >= 0:
             #count -= 1
             # SELECT stage use selectNode()
-            print("Your code goes here -3pt")
+            print("Your code goes here -3pt SELECT")
 
             # EXPAND stage
-            print("Your code goes here -2pt")
+            print("Your code goes here -2pt EXPAND")
 
             # SIMULATE stage using simuplateRandomPlay()
-            print("Your code goes here -3pt")
+            print("Your code goes here -3pt SIMULATE")
 
             # BACKUP stage using backPropagation
-            print("Your code goes here -2pt")
+            print("Your code goes here -2pt BACKUP")
 
         winnerNode = self.root.getChildWithMaxScore()
         assert(winnerNode is not None)
@@ -67,14 +67,14 @@ class MCTS: #Monte Carlo Tree Search implementation
     """selection stage function. walks down the tree using findBestNodeWithUCT()"""
     def selectNode(self, nd):
         node = nd
-        print("Your code goes here -3pt")
+        print("Your code goes here -3pt selectNode")
         return node
 
     def findBestNodeWithUCT(self, nd):
         """finds the child node with the highest UCT. Parse nd's children and use uctValue() to collect uct's for the
         children....."""
         childUCT = []
-        print("Your code goes here -2pt")
+        print("Your code goes here -2pt findBestNodeWithUCT")
         return None
 
 
@@ -106,7 +106,7 @@ class MCTS: #Monte Carlo Tree Search implementation
 
         tempState = copy.deepcopy(nd.state) # to be used in the following random playout
         to_move = tempState.to_move
-        print("Your code goes heren -5pt")
+        print("Your code goes heren -5pt simulateRandomPlay")
 
         return ('X' if winStatus > 0 else 'O' if winStatus < 0 else 'N') # 'N' means tie
 
@@ -115,6 +115,6 @@ class MCTS: #Monte Carlo Tree Search implementation
         """propagate upword to update score and visit count from
         the current leaf node to the root node."""
         tempNode = nd
-        print("Your code goes here -5pt")
+        print("Your code goes here -5pt backPropagation")
 
 
