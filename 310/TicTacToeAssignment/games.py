@@ -127,8 +127,8 @@ def alpha_beta(game, state):
     # Body of alpha_beta_search:
     alpha = -np.inf
     beta = np.inf
-    best_action = None
-    print("Your code goes here -10pt alpha_beta")
+    #best_action = None
+    #print("Your code goes here -10pt alpha_beta")
 
     return max(game.actions(state), key=lambda a: min_value(game.result(state, a), alpha, beta), default=None)
 
@@ -175,8 +175,8 @@ def alpha_beta_cutoff(game, state, d):
     # The default test cuts off at depth d or at a terminal state
     alpha = -np.inf
     beta = np.inf
-    best_action = None
-    print("Your code goes here -10pt alpha_beta_cutoff")
+    #best_action = None
+    #print("Your code goes here -10pt alpha_beta_cutoff")
 
     return max(game.actions(state), key=lambda a: min_value(game.result(state, a), alpha, beta, 0), default=None)
 
@@ -208,7 +208,7 @@ def random_player(game, state):
 
 def alpha_beta_player(game, state):
     """uses alphaBeta prunning with minmax, or with cutoff version, for AI player"""
-    print("Your code goes here -2pt alpha_beta_player")
+    #print("Your code goes here -2pt alpha_beta_player")
     """Use a method to speed up at the start to avoid search down a long tree with not much outcome.
     Hint: for speedup use random_player for start of the game when you see search time is too long"""
 
@@ -223,9 +223,9 @@ def alpha_beta_player(game, state):
     """use the above timer to implement iterative deepening using alpha_beta_cutoff() version"""
     move = None
 
-    while time.perf_counter() < end and game.d <= game.k**2:
+    while time.perf_counter() < end and game.d <= len(state.moves):
         
-        print("Your code goes here -10pt alpha_beta_player")
+        #print("Your code goes here -10pt alpha_beta_player")
 
         print("iterative deepening to depth: ", game.d)
         move = alpha_beta_cutoff(game, state, game.d)
@@ -236,7 +236,7 @@ def alpha_beta_player(game, state):
 
 def minmax_player(game, state):
     """uses minmax or minmax with cutoff depth, for AI player"""
-    print("Your code goes here -3pt minmax_player")
+    #print("Your code goes here -3pt minmax_player")
     """Use a method to speed up at the start to avoid search down a long tree with not much outcome.
     Hint:for speedup use random_player for start of the game when you see search time is too long"""
     
@@ -251,7 +251,7 @@ def minmax_player(game, state):
     """use the above timer to implement iterative deepening using minmax_cutoff() version"""
     move = None
 
-    while time.perf_counter() < end and game.d <= game.k**2:
+    while time.perf_counter() < end and game.d <= len(state.moves):
 
         # print("Your code goes here -10pt minmax_player")
 
