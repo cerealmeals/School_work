@@ -45,20 +45,24 @@ class MCTS: #Monte Carlo Tree Search implementation
         end = start + timelimit
         """Use timer above to apply iterative deepening"""
         while time.perf_counter() < end:
-        #count = 100  # use this and the next line for debugging. Just disable previous while and enable these 2 lines
-        #while count >= 0:
-            #count -= 1
+        # count = 100  # use this and the next line for debugging. Just disable previous while and enable these 2 lines
+        # while count >= 0:
+        #     count -= 1
             # SELECT stage use selectNode()
-            print("Your code goes here -3pt SELECT")
+            node = self.selectNode(self.root)
+            #print("Your code goes here -3pt SELECT")
 
             # EXPAND stage
-            print("Your code goes here -2pt EXPAND")
+            self.expandNode(node)
+            #print("Your code goes here -2pt EXPAND")
 
             # SIMULATE stage using simuplateRandomPlay()
-            print("Your code goes here -3pt SIMULATE")
+            winningPlayer = self.simulateRandomPlay(node)
+            #print("Your code goes here -3pt SIMULATE")
 
             # BACKUP stage using backPropagation
-            print("Your code goes here -2pt BACKUP")
+            self.backPropagation(node, winningPlayer)
+            #print("Your code goes here -2pt BACKUP")
 
         winnerNode = self.root.getChildWithMaxScore()
         assert(winnerNode is not None)
@@ -67,15 +71,23 @@ class MCTS: #Monte Carlo Tree Search implementation
     """selection stage function. walks down the tree using findBestNodeWithUCT()"""
     def selectNode(self, nd):
         node = nd
-        print("Your code goes here -3pt selectNode")
+        
+        while len(node.children) != 0:
+            node = self.findBestNodeWithUCT(node)
+        # print("Your code goes here -3pt selectNode")
         return node
 
     def findBestNodeWithUCT(self, nd):
         """finds the child node with the highest UCT. Parse nd's children and use uctValue() to collect uct's for the
         children....."""
         childUCT = []
-        print("Your code goes here -2pt findBestNodeWithUCT")
-        return None
+        for child in nd.children:
+            childUCT.append(self.uctValue(nd.visitCount, child.winScore, child.visitCount))
+        
+        largest = max(childUCT)
+        i = childUCT.index(largest)
+        # print("Your code goes here -2pt findBestNodeWithUCT")
+        return nd.children[i]
 
 
     def uctValue(self, parentVisit, nodeScore, nodeVisit):
@@ -105,8 +117,19 @@ class MCTS: #Monte Carlo Tree Search implementation
         """now roll out a random play down to a terminating state. """
 
         tempState = copy.deepcopy(nd.state) # to be used in the following random playout
+        # print(tempState)
         to_move = tempState.to_move
-        print("Your code goes heren -5pt simulateRandomPlay")
+        while (self.game.terminal_test(tempState) == False): # no one wins or a tie
+            to_move = tempState.to_move
+            move = random_player(self.game, tempState)
+            tempState.board[move] = to_move
+            moves = tempState.moves
+            moves.remove(move)
+
+            tempState = GameState(to_move=to_move, move=move, utility=0, board=tempState.board, moves=moves)
+
+        winStatus = self.game.utility(tempState, to_move)
+        # print("Your code goes heren -5pt simulateRandomPlay")
 
         return ('X' if winStatus > 0 else 'O' if winStatus < 0 else 'N') # 'N' means tie
 
@@ -115,6 +138,15 @@ class MCTS: #Monte Carlo Tree Search implementation
         """propagate upword to update score and visit count from
         the current leaf node to the root node."""
         tempNode = nd
-        print("Your code goes here -5pt backPropagation")
+        flag = False
+        if winningPlayer == 'O':
+            flag = False
+        while(tempNode != None):
+            tempNode.visitCount += 1
+            if flag:
+                tempNode.winScore += 1
+            tempNode = tempNode.parent
+        
+        # print("Your code goes here -5pt backPropagation")
 
 
