@@ -1,0 +1,154 @@
+:: StoryTitle
+Dark_UX_Patterns
+
+
+:: StoryData
+{
+  "ifid": "78675905-8803-4364-BB2A-2709EB562575",
+  "format": "Harlowe",
+  "format-version": "3.3.9",
+  "start": "Start",
+  "zoom": 1
+}
+
+
+:: \ Comply {"position":"1300,75","size":"100,100"}
+You were summoned at the end of the week to the CEO’s office. As you walked into the room, you couldn't help but feel a sense of unease. 
+
+The CEO starts to explain how former employee’s are starting to go to the press about anti-consumer practices. A legal process has begun and as the lead designer you will be held at the forefront of the litigation.
+
+[[End story -> End]] 
+
+
+:: \ End {"position":"1775,200","size":"100,100"}
+Thank you for participating in our story.
+
+
+:: \ Manager {"position":"1325,275","size":"100,100"}
+You bring all the information to your manager, who reviews it carefully but seems uninterested throughout the process. They assure you they will discuss it with their boss. However, a month goes by without any changes, and the company is thriving due to increased sales.
+
+Later, you discover that your manager hid your findings out of fear of being fired for raising concerns.
+
+[[Severely bothered by the unethical business practice, you decided to send a letter to the press-> Press]] 
+
+
+:: \ Press {"position":"1475,175","size":"100,100"}
+The news quickly dominates headlines, and your former company faces heavy scrutiny from both the public and the law.
+
+Whispers of a class action lawsuit emerge, and you become a notable figure among pro-consumer groups.
+
+This notoriety makes it very difficult for you to find another job at other software companies.
+
+[[End story -> End]] 
+
+
+:: Address Complaints {"position":"1050,325","size":"100,100"}
+You were summoned to the CEO’s office. As you walked into the room, you couldn't help but feel a sense of unease. 
+
+The CEO confronts you on the decline in revenue and conversions. You explain what CSR has told you and your intent to increase customer satisfaction. ‘We need results, not excuses.’ their voice unwavering. ‘Customer satisfaction is important but our bottom line is suffering, how do you plan to turn this around?’. You attempt to detail some suggestions but they cut you off.
+‘You have a month to increase revenue, end of story.’
+
+[[You revert your changes and follow the CEO’s original plan. ->collect data]] 
+
+[[You refute the CEO’s comments and insist on considering accessibility and consumer interests. ->Moved to another team]] 
+
+
+
+
+:: Brush off {"position":"925,25","size":"100,100"}
+These complaints are CSR’s problem. You tell them to take it up with management. A few weeks later the office less lively and you get an anonymous email.
+
+[[Read the email.->Email]]
+
+
+:: Don't implement {"position":"850,500","size":"100,100"}
+You decide to first discuss the concerns with your immediate manager. You highlight the issues customers are facing with unexpected subscription renewals and the negative impact on customer satisfaction and loyalty. 
+
+Your manager is hesitant to escalate the issue, fearing potential backlash from the CEO. They suggest making adjustments within your team’s control.
+
+[[You agree to implement the one-click checkout feature, focusing on increasing conversions and driving revenue.->Implement]]
+
+[[You strongly believe in your ethical standard and decided to take the issue to your hand. You refute your manager’s comment and escalated the issue to the CEO. ->Persuade CEO]]
+
+
+:: Email {"position":"1050,100","size":"100,100"}
+Subject: Urgent: Reporting Anti-Consumer Practices and Accessibility Violations
+
+As a lead developer, you have witnessed firsthand the decisions and policies that have been implemented. Unfortunately, some of these practices appear to be not only anti-consumer but also in direct violation of accessibility laws. These issues are not just technical or operational flaws; they represent a serious breach of ethical standards and legal obligations that could have far-reaching consequences for consumers.
+
+Given your influential position and deep understanding of these matters, I urge you to take a stand and report these issues to the press. We are organizing a litigation and your voice and perspective would be invaluable in shedding light on these practices, promoting transparency, and ultimately advocating for the rights and needs of our consumers.
+
+-Well Wishes
+
+[[You warn the management about the message and return to work. -> Comply]]
+
+[[You consider the warning along side the former CSR team’s complaints and decide to take action. ->collect data]]
+
+
+:: Fired {"position":"1425,475","size":"100,100"}
+A month later, you are let go. The company proceeds with their plans, but soon finds itself embroiled in a public scandal as former employees come forward, citing intent against the visually impaired and anti-consumer practices.
+
+[[End story-> End]] 
+
+
+:: Implement {"position":"850,150","size":"100,100"}
+As the clock struck midnight on New Year's Eve, the company party was in full swing. The CEO took to the stage, beaming with pride as he announced that revenue had increased by 15% over the past year. Among those being celebrated for their contributions was you, who was awarded Employee of the Year for your role in implementing the one-click checkout feature. Your accomplishment was met with applause and congratulations from colleagues.
+
+But just a few days later, on a day off from work, you received an unexpected call from the Customer Service Representative (CSR) department. They shared disturbing news: numerous customers had contacted them to express frustration over unexpected subscription renewals. It seemed that your celebrated feature, while convenient for many, had also inadvertently triggered unwanted auto-renewals for some users. The CSR team was overwhelmed with complaints and needed your immediate attention to resolve the issue.
+
+[[You brush off the CSR team’s concerns and tell them to take it up with management.->Brush off]]
+
+[[Address the complaints and adjust the checkout process slightly, adding small warnings.->Address Complaints]]
+
+
+:: Intro {"position":"750,325","size":"100,100"}
+You're the lead designer at a popular e-commerce platform, and your team has been tasked with redesigning the website's checkout process. The company's CEO wants to increase sales by 15% within the next quarter, and she believes that the current checkout process is too lengthy and complex.
+
+The proposed design change is to use a "one-click" checkout feature, which would allow customers to quickly proceed to payment without having to enter their shipping information or review order details. The CEO claims that this will streamline the process and reduce cart abandonment rates.
+
+However, you're concerned about the potential ethical implications of this design change. You've noticed that some customers may not fully understand what they're agreeing to when they click "one-click" checkout, which could lead to unexpected charges or automatic subscription renewals. You're also worried about the impact on visually impaired users who rely on screen readers and may struggle with the new design.
+
+[[You implement the one-click checkout feature, focusing on increasing conversions and driving revenue.->Implement]]
+
+[[You decide not to implement the one-click checkout feature, citing concerns about unintended consequences.->Don't implement]]
+
+
+:: Moved to another team {"position":"1175,475","size":"100,100"}
+Because the company is concerned about the repercussions of firing someone over ethical issues, they decide to move you to a new team. However, this new team accepts you very coldly.
+You find it difficult to come into work, knowing you aren't welcomed, and your work quality starts to decline.
+
+[[Quit because you feel isolated -> End]]
+
+[[You decided to stay with the company to avoid the potential financial burden on your family.->Fired]]
+
+
+
+:: Persuade CEO {"position":"1000,475","size":"100,100"}
+However, despite your best efforts to persuade him otherwise, the CEO remained unmoved. He cited his initial decision to implement the feature as a done deal, stating that you had been hired to do the work and now it was too late to backtrack. 'I know there have been some issues,' he said, 'but I'm confident that we can iron them out. The benefits of a one-click checkout far outweigh the drawbacks.' You left the meeting feeling frustrated and concerned about the future of your work at the company. Despite your efforts to address the issue, it seemed that the CEO was unwilling to reconsider his stance on the matter.
+
+[[You refute the CEO’s comments and insist on considering accessibility and consumer interests.->Moved to another team]]
+
+[[You agree to implement the one-click checkout feature, focusing on increasing conversions and driving revenue.->Implement]]
+
+
+:: Start {"position":"625,250","size":"100,100"}
+This "Choose Your Own Outcome" interactive story is based on the case study,(link:"Dark UX Patterns") [(open-url:"https://ethics.acm.org/code-of-ethics/using-the-code/case-dark-ux-patterns/")], by the ACM Committee on Professional Ethics. 
+
+Aki Wangcharoensap: Original idea and setup
+Gabriel Ong: Added bulk of content
+Sam Nygard: Implemented in twine and edited
+
+[[Start story->Intro]]
+
+
+:: collect data {"position":"1200,225","size":"100,100"}
+Over time, you accumulate substantial evidence that demonstrates the negative impact of the feature on customer satisfaction and accessibility. Armed with this data, you prepare to present your findings to the manager or the press.
+
+[[Go to your manager -> Manager]]
+
+[[Go to the press -> Press]]
+
+
+
+:: StoryStylesheet [stylesheet]
+tw-sidebar { display: none; }
