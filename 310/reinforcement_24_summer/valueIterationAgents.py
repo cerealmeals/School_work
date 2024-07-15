@@ -73,7 +73,11 @@ class ValueIterationAgent(ValueEstimationAgent):
     def runValueIteration(self):
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        for i in range(self.iterations):
+            print("one interation in runValueIteration")
+            self.getAction((0,0))
+
+        
 
 
 
@@ -91,7 +95,14 @@ class ValueIterationAgent(ValueEstimationAgent):
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        list_of_actions_and_prob = self.getTransitionStatesAndProbs(state, action)
+
+        value = 0
+        for tup in list_of_actions_and_prob:
+            value = value + self.mdp.getReward(state, action, tup[0]) * tup[1]
+
+        print(value)
+        return value
 
 
     def computeActionFromValues(self, state):
@@ -104,6 +115,9 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
+
+        print(self.values[state])
+
         util.raiseNotDefined()
 
 
