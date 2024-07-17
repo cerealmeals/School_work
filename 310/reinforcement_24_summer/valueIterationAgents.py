@@ -26,7 +26,7 @@ import queue
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
 
-import mdp, util
+import mdp, util, random
 from queue import PriorityQueue
 
 from learningAgents import ValueEstimationAgent
@@ -73,9 +73,13 @@ class ValueIterationAgent(ValueEstimationAgent):
     def runValueIteration(self):
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
+        
+
+        values1 = util.Counter()
         for i in range(self.iterations):
-            print("one interation in runValueIteration")
-            self.getAction((0,0))
+            print(i, " interation of runValueIteration")
+            for state in self.mdp.getStates():
+                values1[state] = self.values[state]
 
         
 
@@ -99,9 +103,8 @@ class ValueIterationAgent(ValueEstimationAgent):
 
         value = 0
         for tup in list_of_actions_and_prob:
-            value = value + self.mdp.getReward(state, action, tup[0]) * tup[1]
+            value = value + self.values[tup[0]] * tup[1]
 
-        print(value)
         return value
 
 
@@ -115,11 +118,22 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-
-        print(self.values[state])
-
-        util.raiseNotDefined()
-
+        if self.isTerminal(state):
+            return None
+        
+        actions = self.getPossibleActions(state)
+        highest = float('-inf')
+        return_action = actions[0]
+        for action in actions:
+            value = self.computeQValueFromValues(state, action)
+            if value > highest:
+                highest = value
+                return_action = action
+            elif value == highest:
+                if 0.5 > random.random():
+                    highest = value
+                    return_action = action
+        return return_action
 
 
     def getPolicy(self, state):
