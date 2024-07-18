@@ -73,17 +73,31 @@ class ValueIterationAgent(ValueEstimationAgent):
     def runValueIteration(self):
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
-        
+        currIterations = 0
+        while currIterations < self.iterations:
+            # initialize a counter to keep track of our values per iteration
+            allVals = util.Counter()
+            possStates = self.mdp.getStates()
+            for state in possStates:
+                # if there are no actions don't iterate, else compute
+                if not self.mdp.isTerminal(state):
+                    # initialize counter for getting values from the current state
+                    vals = util.Counter()
+                    possActions = self.mdp.getPossibleActions(state)
+                    # iterate over actions and get their qvalues
+                    for action in possActions:
+                        vals[action] = self.computeQValueFromValues(state, action)
+                    # get the best seen value for that state and action
+                    allVals[state] = max(vals.values())
+            currIterations += 1
+            # update the policy with the best values
+            self.values = allVals.copy()
 
-        values1 = util.Counter()
-        for i in range(self.iterations):
-            print(i, " interation of runValueIteration")
-            for state in self.mdp.getStates():
-                values1[state] = self.values[state]
-
-        
-
-
+        # values1 = util.Counter()
+        # for i in range(self.iterations):
+        #     print(i, " interation of runValueIteration")
+        #     for state in self.mdp.getStates():
+        #         values1[state] = self.values[state]
 
 
     def getValue(self, state):
