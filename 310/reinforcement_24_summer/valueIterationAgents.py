@@ -113,11 +113,11 @@ class ValueIterationAgent(ValueEstimationAgent):
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
-        list_of_actions_and_prob = self.getTransitionStatesAndProbs(state, action)
+        list_of_nextState_and_prob = self.mdp.getTransitionStatesAndProbs(state, action)
 
         value = 0
-        for tup in list_of_actions_and_prob:
-            value = value + self.values[tup[0]] * tup[1]
+        for tup in list_of_nextState_and_prob:
+            value += (((self.values[tup[0]]* self.discount) + self.mdp.getReward(state, action, tup[0])) * tup[1])
 
         return value
 
@@ -132,10 +132,10 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        if self.isTerminal(state):
+        if self.mdp.isTerminal(state):
             return None
         
-        actions = self.getPossibleActions(state)
+        actions = self.mdp.getPossibleActions(state)
         highest = float('-inf')
         return_action = actions[0]
         for action in actions:
@@ -182,13 +182,39 @@ class PrioritizedSweepingValueIterationAgent(ValueIterationAgent):
     def runValueIteration(self):
         "*** YOUR CODE HERE ***"
         #compute predecessors of all states
-        util.raiseNotDefined()
+        predecessors = util.Counter() # []
+        for state in self.mdp.getStates():
+            predecessors[state] = set()
+
+        for state in self.mdp.getStates():
+            possible_action = self.mdp.getPossibleActions(state)
+            for action in possible_action:
+                nextState_prob_list = self.mdp.getTransitionStatesAndProbs(state, action)
+                for tuple in nextState_prob_list:
+                    if tuple[1] > 0:
+                        predecessors[tuple[0]].add(state)
 
         # setup priority queue for all states based on their highest diff in greedy update
-        util.raiseNotDefined()
+        PrioQueue = util.PriorityQueue()
+        possStates = self.mdp.getStates()
+        for state in possStates:
+            if not self.mdp.isTerminal(state):
+                value = abs(self.values[state] - self.getGreedyUpdate(state))
+                PrioQueue.push(state, -value)
 
         # run priority sweeping value iteration:
-        util.raiseNotDefined()
+        for i in range(self.iterations):
+            if PrioQueue.isEmpty():
+                return
+            state = PrioQueue.pop()
+            if not self.mdp.isTerminal(state):
+                self.values[state] = self.getGreedyUpdate(state)
+            
+            for predecessor_state in predecessors[state]:
+                value = abs(self.values[predecessor_state] - self.getGreedyUpdate(predecessor_state))
+                if value > self.theta:
+                    PrioQueue.update(predecessor_state, -value)
+        
 
 
 
